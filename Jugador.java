@@ -6,6 +6,11 @@ public class Jugador {
     private Vector<Carta> cartas;
     private String nombre;
 
+    public Jugador() {
+        this.nombre = "";
+        this.cartas = new Vector<Carta>();
+    }
+
     public Jugador(String nombre){
         this.nombre = nombre;
         this.cartas = new Vector<Carta>();
@@ -25,6 +30,10 @@ public class Jugador {
 
     public Vector<Carta> get_cartas() {
         return this.cartas;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public void ver_cartas() {
