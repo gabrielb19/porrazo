@@ -98,11 +98,11 @@ public class Juego {
         System.out.println("Size jugador que inicia:" + size);
         System.out.println("Indique el nombre del jugador que va iniciar: ");
         nombre = sc.nextLine();
-        sc.close();
         while(!nombre.equals(jugador1.get_nombre()) && !nombre.equals(jugador2.get_nombre())){
-            System.out.println("Nombre invalido para el turno 1");
-
+            System.out.println("Indique un nombre válido: ");
+            nombre = sc.nextLine();
         }
+        sc.close();
         while (!hay_ganador) {
            if(nombre.equals(jugador1.get_nombre())){
                 System.out.println("Inicia el jugador 1");
