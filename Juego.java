@@ -65,13 +65,14 @@ public class Juego {
     private void sacarCarta(Jugador jugador, int num) {
         Carta c;
         Scanner sc = new Scanner(System.in);
+        System.out.println("Turno actual:" + num);
         if (num == 0) {
             c = this.mazo.pop();
             jugador.recibir_carta(c);
             System.out.println("Has recibido: "+ c.get_numero() + " de " + c.get_tipo());
         }
         else {
-            System.out.println("De donde deseas comer una carta?\nMazo = 0\nComodines = 1\n");
+            System.out.println("\nDe donde deseas comer una carta?\nMazo = 0\nComodines = 1\n");
             int decision = -1;
             decision = sc.nextInt();
             while(decision != 1 && decision != 0){
@@ -129,19 +130,24 @@ public class Juego {
         boolean hay_ganador = false;
 
         this.obtenerNombres();
-        String nombre = this.escogerPrimerJugador();
+        String jugadorActual = this.escogerPrimerJugador();
          
-       
+        int numDeTurno = 0;
+
         while (!hay_ganador) {
-            int numDeTurno = 0;
-            if(nombre.equals(this.jugador1.get_nombre())){
-                System.out.println("Inicia el jugador 1");
+            if(jugadorActual.equals(this.jugador1.get_nombre())){
+                System.out.println("Juega el jugador 1");
                 this.turno(this.jugador1, numDeTurno);
+                jugadorActual = this.jugador2.get_nombre();
+                numDeTurno += 1;
             }
-            if(nombre.equals(this.jugador2.get_nombre())){
-                System.out.println("Inicia el jugador 2");
+            else if(jugadorActual.equals(this.jugador2.get_nombre())){
+                System.out.println("Juega el jugador 2");
                 this.turno(this.jugador2, numDeTurno);
+                jugadorActual = this.jugador1.get_nombre();
+                numDeTurno += 1;
             }
+            
         }
         
     }  
