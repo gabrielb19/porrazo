@@ -86,13 +86,31 @@ public class Juego {
         System.out.println("Indique el nombre del jugador 2: ");
         nombre = sc.nextLine();
         Jugador jugador2 = new Jugador(nombre);
+        System.out.println("Jugador 1:"+ jugador1.get_nombre());
+        System.out.println("Jugador 2:"+ jugador2.get_nombre());
+        System.out.println("Jugador que inicia:"+ nombre);
+        boolean hay_ganador = false;
+        int size = jugador1.get_nombre().length();
+        System.out.println("Size jugador 1:" + size);
+        size = jugador2.get_nombre().length();
+        System.out.println("Size jugador 2:" + size);
+        size = nombre.length();
+        System.out.println("Size jugador que inicia:" + size);
         System.out.println("Indique el nombre del jugador que va iniciar: ");
         nombre = sc.nextLine();
         sc.close();
-        boolean hay_ganador = false;
-        while (!hay_ganador) {
+        while(!nombre.equals(jugador1.get_nombre()) && !nombre.equals(jugador2.get_nombre())){
+            System.out.println("Nombre invalido para el turno 1");
 
         }
-    }
-
+        while (!hay_ganador) {
+           if(nombre.equals(jugador1.get_nombre())){
+                System.out.println("Inicia el jugador 1");
+            }
+            if(nombre.equals(jugador2.get_nombre())){
+                System.out.println("Inicia el jugador 2");
+            }
+        }
+    }  
 }
+
