@@ -21,7 +21,7 @@ public class Jugador {
     }
 
     public Carta desechar_carta(int index) {
-        return this.cartas.elementAt(index);
+        return this.cartas.remove(index);
     }
 
     public String get_nombre() {
