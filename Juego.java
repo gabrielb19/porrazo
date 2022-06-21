@@ -35,10 +35,10 @@ public class Juego {
 
     public void crear_baraja() {
         for (int i = 1; i < 14; i += 1) {
-            baraja.add(new Carta (i, "corazon"));
-            baraja.add(new Carta (i, "pica"));
-            baraja.add(new Carta (i, "trebol"));
-            baraja.add(new Carta (i, "rombo"));
+            baraja.add(new Carta (i, "corazon", "imagenes/"+i+"_of_hearts"));
+            baraja.add(new Carta (i, "pica", "imagenes"+i+"_of_spades"));
+            baraja.add(new Carta (i, "trebol", "imagenes"+i+"_of_clubs"));
+            baraja.add(new Carta (i, "rombo", "imagenes"+i+"_of_diamonds"));
         }
     }
 
