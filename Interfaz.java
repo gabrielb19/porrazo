@@ -42,7 +42,7 @@ public class Interfaz /*implements ActionListener*/ {
         this.comodin = crear_boton_carta(250, 450, 127, 200, tope_desechadas);
         frame.add(comodin);
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1920,1080);
         frame.setLayout(null);
 
@@ -66,12 +66,5 @@ public class Interfaz /*implements ActionListener*/ {
     public JButton get_carta_secreta() {
         return this.carta_secreta;
     }
-
-    /* public void actionPerformed(ActionEvent e){
-        if (e) {
-
-        }
-    }*/
-
 
 }
