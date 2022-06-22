@@ -5,10 +5,14 @@ import java.util.Stack;
 public class Jugador {
     private Vector<Carta> cartas;
     private String nombre;
+    private boolean comio;
+    private boolean desecho;
 
     public Jugador() {
         this.nombre = "";
         this.cartas = new Vector<Carta>();
+        this.comio = false;
+        this.desecho = false;
     }
 
     public Jugador(String nombre){
@@ -26,6 +30,22 @@ public class Jugador {
 
     public String get_nombre() {
         return this.nombre;
+    }
+
+    public boolean get_comio() {
+        return this.comio;
+    }
+
+    public boolean get_desecho() {
+        return this.desecho;
+    }
+
+    public void set_comio(boolean var) {
+        this.comio = var;
+    }
+
+    public void set_desecho(boolean var) {
+        this.desecho = var;
     }
 
     public Vector<Carta> get_cartas() {

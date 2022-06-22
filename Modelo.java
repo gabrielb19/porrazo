@@ -166,14 +166,27 @@ public class Modelo {
         }
     }
 
-    public void entregar_carta(Jugador jugador, int num) {
-        Carta c;
+    public boolean entregar_carta(Jugador jugador, int num) {
+        boolean entregada = false;
         if (num == 0) {
-            jugador.recibir_carta(this.mazo.pop());
+            if (this.mazo.empty()) {
+                System.out.println("El mazo está vacio");
+            }
+            else {
+                jugador.recibir_carta(this.mazo.pop());
+                entregada = true;
+            }
         }
         else {
-            jugador.recibir_carta(this.comodines.pop());
+            if (this.comodines.empty()) {
+                System.out.println("La pila de comodines esta vacia");
+            }
+            else {
+                jugador.recibir_carta(this.comodines.pop());
+                entregada = true;
+            }
         }
+        return entregada;
     }
 
     public void elegir_jugador_actual () {
@@ -190,10 +203,12 @@ public class Modelo {
 
     public void cambiar_jugador_actual() {
         if (this.jugador_actual == this.jugador1) {
+            this.jugador1 = this.jugador_actual;
             this.jugador_actual = jugador2;
         }
         else {
             if (this.jugador_actual == this.jugador2) {
+                this.jugador2 = this.jugador_actual;
                 this.jugador_actual = jugador1;
             }
         }
@@ -227,7 +242,6 @@ public class Modelo {
     public Stack<Carta> get_comodines() {
         return this.comodines;
     }
-
 
 
 
