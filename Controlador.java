@@ -33,22 +33,25 @@ public class Controlador implements ActionListener{
                 comodin = "imagenes/vacio.png";
             }
 
-            this.interfaz.pantalla_principal(imagenes, comodin);
+            this.interfaz.pantalla_principal(imagenes, comodin, "TURNO DE COMER DEL JUGADOR "+ this.modelo.get_jugador_actual().get_nombre());
             agregar_action_listeners_comer();
 
-            while (!this.modelo.get_jugador_actual().get_comio());
-                this.interfaz.reset();
-                this.interfaz = new Interfaz();
+            while (!this.modelo.get_jugador_actual().get_comio()){
+                System.out.print("");
+            }
 
-                imagenes = this.modelo.cards_to_strings_vector(this.modelo.get_jugador_actual());
-                if (!primera_iteracion && !this.modelo.get_comodines().empty()) {
-                    comodin = this.modelo.get_comodines().peek().get_imagen();
-                }   
-                else {
-                    comodin = "imagenes/vacio.png";
-                }
-                this.interfaz.pantalla_principal(imagenes, comodin);
-                agregar_action_listeners_desechar();
+            this.interfaz.reset();
+            this.interfaz = new Interfaz();
+
+            imagenes = this.modelo.cards_to_strings_vector(this.modelo.get_jugador_actual());
+            if (!primera_iteracion && !this.modelo.get_comodines().empty()) {
+                comodin = this.modelo.get_comodines().peek().get_imagen();
+            }   
+            else {
+                comodin = "imagenes/vacio.png";
+            }
+            this.interfaz.pantalla_principal(imagenes, comodin, "TURNO DE BOTAR UNA CARTA DEL JUGADOR "+ this.modelo.get_jugador_actual().get_nombre());
+            agregar_action_listeners_desechar();
 
             while (!this.modelo.get_jugador_actual().get_desecho()){
                 System.out.print("");

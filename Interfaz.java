@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.util.Vector;
 import java.awt.Image;
 import java.awt.event.*;
+import java.awt.Font;
 
 public class Interfaz /*implements ActionListener*/ {
     private JFrame frame;
@@ -26,29 +27,32 @@ public class Interfaz /*implements ActionListener*/ {
         return boton;
     }
 
-    public void pantalla_principal(Vector<String> mano, String tope_desechadas) {
+    public void pantalla_principal(Vector<String> mano, String tope_desechadas, String titulo) {
         // Se crean botones de la mano de cartas
         int x = 600;
+        JLabel texto1 = new JLabel();
+        texto1.setText(titulo);
+        texto1.setFont(new Font("Serif", Font.BOLD, 30));
+        texto1.setBounds(760, 10, 600, 200);
+        frame.add(texto1);
         for (int i = 0; i < mano.size(); i += 1) {
-            JButton boton = crear_boton_carta(x, 100, 127, 200, mano.elementAt(i));
+            JButton boton = crear_boton_carta(x, 300, 127, 200, mano.elementAt(i));
             this.mano_cartas.add(boton);
             this.frame.add(boton);
             x += 127;
         }
 
-        this.carta_secreta = crear_boton_carta(250, 100, 127, 200, "imagenes/carta.png");
+        this.carta_secreta = crear_boton_carta(250, 300, 127, 200, "imagenes/carta.png");
         frame.add(carta_secreta);
 
-        this.comodin = crear_boton_carta(250, 450, 127, 200, tope_desechadas);
+        this.comodin = crear_boton_carta(250, 650, 127, 200, tope_desechadas);
         frame.add(comodin);
 
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1920,1080);
         frame.setLayout(null);
 
-    
         frame.setVisible(true);
-
     }
 
     public void reset() {

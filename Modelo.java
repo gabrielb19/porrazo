@@ -13,8 +13,8 @@ public class Modelo {
     private Vector<Carta> baraja;
 
     public Modelo(){
-        this.jugador1 = new Jugador();
-        this.jugador2 = new Jugador();
+        this.jugador1 = new Jugador("1");
+        this.jugador2 = new Jugador("2");
         this.mazo = new Stack<Carta>();
         this.comodines = new Stack<Carta>();
         this.baraja = new Vector<Carta>();
