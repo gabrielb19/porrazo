@@ -20,6 +20,7 @@ public class Controlador implements ActionListener{
         FuncionalidadJugador.get().elegir_jugador_actual();
 
         while(!hay_ganador) {
+            
             Vector<String> imagenes = FuncionalidadCartas.get().cards_to_strings_vector(FuncionalidadJugador.get().get_jugador_actual().get_cartas());
             String comodin = "";
             if (!primera_iteracion && !FuncionalidadCartas.get().get_comodines().empty()) {
@@ -31,6 +32,8 @@ public class Controlador implements ActionListener{
 
             this.interfaz.pantalla_principal(imagenes, comodin, "TURNO DE COMER DEL JUGADOR "+ FuncionalidadJugador.get().get_jugador_actual().get_nombre());
             agregar_action_listeners_comer();
+
+            agregar_action_listeners_reglas();
 
             while (!FuncionalidadJugador.get().get_jugador_actual().get_comio()){
                 System.out.print("");
@@ -48,6 +51,8 @@ public class Controlador implements ActionListener{
             }
             this.interfaz.pantalla_principal(imagenes, comodin, "TURNO DE BOTAR UNA CARTA DEL JUGADOR "+ FuncionalidadJugador.get().get_jugador_actual().get_nombre());
             agregar_action_listeners_desechar();
+
+            agregar_action_listeners_reglas();
 
             while (!FuncionalidadJugador.get().get_jugador_actual().get_desecho()){
                 System.out.print("");
@@ -67,6 +72,15 @@ public class Controlador implements ActionListener{
     public void agregar_action_listeners_comer() {
         this.interfaz.get_comodin().addActionListener(this);
         this.interfaz.get_carta_secreta().addActionListener(this);
+        this.interfaz.get_boton_reglas().addActionListener(this);
+    }
+
+    public void agregar_action_listeners_grupos() {
+        this.interfaz.get_boton_eleccion().addActionListener(this);
+    }
+
+    public void agregar_action_listeners_reglas() {
+        this.interfaz.get_boton_reglas().addActionListener(this);
     }
 
     public void agregar_action_listeners_desechar() {
@@ -96,6 +110,11 @@ public class Controlador implements ActionListener{
                 if (e.getSource() == this.interfaz.get_carta_secreta()) {
                     if (FuncionalidadJugador.get().entregar_carta(FuncionalidadJugador.get().get_jugador_actual(), 0)) {
                         FuncionalidadJugador.get().get_jugador_actual().set_comio(true);
+                    }
+                }
+                else {
+                    if(e.getSource() == this.interfaz.get_boton_reglas()) {
+                        this.interfaz.desplegar_reglas();
                     }
                 }
             }

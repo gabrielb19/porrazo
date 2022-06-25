@@ -1,6 +1,3 @@
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Scanner;
 import java.util.Stack;  
 import java.util.Vector;
 
