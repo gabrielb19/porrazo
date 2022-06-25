@@ -18,35 +18,10 @@ public class FuncionalidadJugador {
         return instancia; 
     }
     
-    public FuncionalidadJugador(){
+    private FuncionalidadJugador(){
         this.cartas = FuncionalidadCartas.get();
         this.jugador1 = new Jugador("1");
         this.jugador2 = new Jugador("2");
-    }
-
-    public boolean puede_ganar(Vector<Carta> grupo1, Vector<Carta> grupo2 ) {
-        
-        
-
-        boolean gano = false;
-        boolean hay_cartas_iguales_1 = false;
-        boolean hay_escalera_1 = false;
-        boolean hay_cartas_iguales_2 = false;
-        boolean hay_escalera_2 = false;
-
-        hay_cartas_iguales_1 = cartas.hay_iguales(grupo1); 
-
-        hay_cartas_iguales_2 = cartas.hay_iguales(grupo2); 
-
-        hay_escalera_1 = cartas.hay_escalera(grupo1); 
-
-        hay_escalera_2 = cartas.hay_escalera(grupo2); 
-
-        if ((hay_cartas_iguales_1 || hay_escalera_1) && (hay_cartas_iguales_2 || hay_escalera_2)) {
-            gano = true; 
-        }
-        
-        return gano; 
     }
 
     public void repartir_cartas() {

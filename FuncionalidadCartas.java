@@ -17,7 +17,7 @@ public class FuncionalidadCartas {
         }
         return instancia; 
     }    
-    public FuncionalidadCartas() {
+    private FuncionalidadCartas() {
         this.mazo = new Stack<Carta>();
         this.comodines = new Stack<Carta>();
         this.baraja = new Vector<Carta>();
@@ -136,7 +136,30 @@ public class FuncionalidadCartas {
         }
 
         return tiene_iguales; 
-    } 
+    }
+
+    public boolean puede_ganar(Vector<Carta> grupo1, Vector<Carta> grupo2 ) {
+        
+        boolean gano = false;
+        boolean hay_cartas_iguales_1 = false;
+        boolean hay_escalera_1 = false;
+        boolean hay_cartas_iguales_2 = false;
+        boolean hay_escalera_2 = false;
+
+        hay_cartas_iguales_1 = this.hay_iguales(grupo1); 
+
+        hay_cartas_iguales_2 = this.hay_iguales(grupo2); 
+
+        hay_escalera_1 = this.hay_escalera(grupo1); 
+
+        hay_escalera_2 = this.hay_escalera(grupo2); 
+
+        if ((hay_cartas_iguales_1 || hay_escalera_1) && (hay_cartas_iguales_2 || hay_escalera_2)) {
+            gano = true; 
+        }
+        
+        return gano; 
+    }
 
     public void agregar_carta_comodines(Carta c) {
         this.comodines.push(c);
