@@ -1,14 +1,9 @@
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Scanner;
 import java.util.Stack;  
-import java.util.Vector;
 
 public class FuncionalidadJugador {
     private Jugador jugador1;
     private Jugador jugador2;
     private Jugador jugador_actual;
-    FuncionalidadCartas cartas;
     private static FuncionalidadJugador instancia;  
    
     public static FuncionalidadJugador get() {
@@ -19,13 +14,12 @@ public class FuncionalidadJugador {
     }
     
     private FuncionalidadJugador(){
-        this.cartas = FuncionalidadCartas.get();
         this.jugador1 = new Jugador("1");
         this.jugador2 = new Jugador("2");
     }
 
     public void repartir_cartas() {
-        Stack<Carta> mazo = cartas.get_mazo(); 
+        Stack<Carta> mazo = FuncionalidadCartas.get().get_mazo(); 
         
         for (int j = 0; j < 7; j += 1) {
             this.jugador1.recibir_carta(mazo.pop());
@@ -34,8 +28,8 @@ public class FuncionalidadJugador {
     }
 
     public boolean entregar_carta(Jugador jugador, int num) {
-        Stack<Carta> mazo = cartas.get_mazo();
-        Stack<Carta> comodines = cartas.get_comodines(); 
+        Stack<Carta> mazo = FuncionalidadCartas.get().get_mazo();
+        Stack<Carta> comodines = FuncionalidadCartas.get().get_comodines(); 
         boolean entregada = false;
         if (num == 0) {
             if (mazo.empty()) {
