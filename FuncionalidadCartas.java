@@ -4,24 +4,32 @@ import java.util.Scanner;
 import java.util.Stack;  
 import java.util.Vector;
 
-public class Modelo {
-    private Jugador jugador1;
-    private Jugador jugador2;
-    private Jugador jugador_actual;
+public class FuncionalidadCartas {
+
+    private static FuncionalidadCartas instancia; 
     private Stack<Carta> mazo;
     private Stack<Carta> comodines;
     private Vector<Carta> baraja;
 
-    public Modelo(){
-        this.jugador1 = new Jugador("1");
-        this.jugador2 = new Jugador("2");
+    public static FuncionalidadCartas get() {
+        if (instancia == null) {
+            instancia = new FuncionalidadCartas(); 
+        }
+        return instancia; 
+    }    
+    public FuncionalidadCartas() {
         this.mazo = new Stack<Carta>();
         this.comodines = new Stack<Carta>();
         this.baraja = new Vector<Carta>();
     }
 
-    public  int numero_aleatorio(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
+    public void crear_baraja() {
+        for (int i = 1; i < 14; i += 1) {
+            baraja.add(new Carta (i, "corazon", "imagenes/"+i+"_of_hearts.png"));
+            baraja.add(new Carta (i, "pica", "imagenes/"+i+"_of_spades.png"));
+            baraja.add(new Carta (i, "trebol", "imagenes/"+i+"_of_clubs.png"));
+            baraja.add(new Carta (i, "rombo", "imagenes/"+i+"_of_diamonds.png"));
+        }
     }
 
     private boolean pertenece(Vector<Integer> nums, int num) {
@@ -35,14 +43,8 @@ public class Modelo {
         return pertenece;
     }
 
-
-    public void crear_baraja() {
-        for (int i = 1; i < 14; i += 1) {
-            baraja.add(new Carta (i, "corazon", "imagenes/"+i+"_of_hearts.png"));
-            baraja.add(new Carta (i, "pica", "imagenes/"+i+"_of_spades.png"));
-            baraja.add(new Carta (i, "trebol", "imagenes/"+i+"_of_clubs.png"));
-            baraja.add(new Carta (i, "rombo", "imagenes/"+i+"_of_diamonds.png"));
-        }
+    public  int numero_aleatorio(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
     }
 
     public void crear_mazo() {
@@ -81,30 +83,7 @@ public class Modelo {
 
         return cartas_ordenadas; 
     }
-
-    public boolean puede_ganar(Vector<Carta> grupo1, Vector<Carta> grupo2 ) {
-        
-        boolean gano = false;
-        boolean hay_cartas_iguales_1 = false;
-        boolean hay_escalera_1 = false;
-        boolean hay_cartas_iguales_2 = false;
-        boolean hay_escalera_2 = false;
-
-        hay_cartas_iguales_1 = hay_iguales(grupo1); 
-
-        hay_cartas_iguales_2 = hay_iguales(grupo2); 
-
-        hay_escalera_1 = hay_escalera(grupo1); 
-
-        hay_escalera_2 = hay_escalera(grupo2); 
-
-        if ((hay_cartas_iguales_1 || hay_escalera_1) && (hay_cartas_iguales_2 || hay_escalera_2)) {
-            gano = true; 
-        }
-        
-        return gano; 
-    }
-
+    
     public boolean hay_escalera(Vector<Carta> cartas_escalera) {
         boolean tiene_escalera = false;
         boolean mismo_tipo = false;
@@ -159,80 +138,8 @@ public class Modelo {
         return tiene_iguales; 
     } 
 
-    public void repartir_cartas() {
-        for (int j = 0; j < 7; j += 1) {
-            this.jugador1.recibir_carta(this.mazo.pop());
-            this.jugador2.recibir_carta(this.mazo.pop());
-        }
-    }
-
-    public boolean entregar_carta(Jugador jugador, int num) {
-        boolean entregada = false;
-        if (num == 0) {
-            if (this.mazo.empty()) {
-                System.out.println("El mazo está vacio");
-            }
-            else {
-                jugador.recibir_carta(this.mazo.pop());
-                entregada = true;
-            }
-        }
-        else {
-            if (this.comodines.empty()) {
-                System.out.println("La pila de comodines esta vacia");
-            }
-            else {
-                jugador.recibir_carta(this.comodines.pop());
-                entregada = true;
-            }
-        }
-        return entregada;
-    }
-
-    public void elegir_jugador_actual () {
-        int num = this.numero_aleatorio(0, 2);
-        switch (num) {
-            case 0:
-                this.jugador_actual = this.jugador1;
-            break;
-            case 1:
-                this.jugador_actual = this.jugador1;
-            break;
-        }
-    }
-
-    public void cambiar_jugador_actual() {
-        if (this.jugador_actual == this.jugador1) {
-            this.jugador1 = this.jugador_actual;
-            this.jugador_actual = jugador2;
-        }
-        else {
-            if (this.jugador_actual == this.jugador2) {
-                this.jugador2 = this.jugador_actual;
-                this.jugador_actual = jugador1;
-            }
-        }
-    }
-
-
-    public Jugador get_jugador_actual() {
-        return this.jugador_actual;
-    }
-
     public void agregar_carta_comodines(Carta c) {
         this.comodines.push(c);
-    }
-
-    public Vector<String> cards_to_strings_vector(Jugador j) {
-        String aux;
-        Vector<String> result = new Vector<String>();
-        Vector<Carta> cartas = j.get_cartas();
-        for (int i = 0; i < cartas.size(); i += 1) {
-            aux = cartas.elementAt(i).get_imagen();
-            System.out.println(aux);
-            result.add(aux);
-        }
-        return result;
     }
 
     public Stack<Carta> get_mazo() {
@@ -243,8 +150,14 @@ public class Modelo {
         return this.comodines;
     }
 
-
-
+    public Vector<String> cards_to_strings_vector(Vector<Carta> cartas) {
+        String aux;
+        Vector<String> result = new Vector<String>();
+        for (int i = 0; i < cartas.size(); i += 1) {
+            aux = cartas.elementAt(i).get_imagen();
+            result.add(aux);
+        }
+        return result;
+    }
 
 }
-
