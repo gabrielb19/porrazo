@@ -4,7 +4,11 @@ import java.awt.Image;
 import java.awt.event.*;
 import java.awt.Font;
 import java.awt.Color; 
-import java.awt.FlowLayout; 
+import java.awt.FlowLayout;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class Interfaz /*implements ActionListener*/ {
     private JFrame frame;
@@ -97,7 +101,15 @@ public class Interfaz /*implements ActionListener*/ {
     }
 
     public void desplegar_reglas() {
-        JOptionPane.showMessageDialog(null, "Your message goes here!");
+        Path filePath = Path.of("reglas.txt");
+        String content = ""; 
+        try {
+            content = Files.readString(filePath, StandardCharsets.US_ASCII);
+        } catch (IOException e) {
+            System.out.println("Error en cargar de archivo");
+        }
+    
+        JOptionPane.showMessageDialog(null, content);
     }
 
 }
