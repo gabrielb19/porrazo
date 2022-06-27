@@ -38,11 +38,11 @@
 
 ## **Integrantes**
 
-- Greivin Jose Arce Navarro <greivin.arcenavarro@ucr.ac.cr>
+- Greivin Jose Arce Navarro | C00585 <greivin.arcenavarro@ucr.ac.cr>
 
-- Christopher Perez Blanco <christopher.perez@ucr.ac.cr>
+- Christopher Perez Blanco | C05881 <christopher.perez@ucr.ac.cr>
 
-- Gabriel Bonilla Rivera <gabriel.bonillarivera@ucr.ac.cr>
+- Gabriel Bonilla Rivera | C01252 <gabriel.bonillarivera@ucr.ac.cr>
 
 
 ## **License**
