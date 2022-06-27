@@ -17,7 +17,7 @@
 
 ## **Diseño de clases**
 
-[UML](https://github.com/gabrielb19/porrazo/tree/main/design)
+[UML](https://github.com/gabrielb19/porrazo/tree/main/design#readme)
 
 ## **Caracteristicas del Proyecto**
 1. Para seleccionar el jugador que inicia la partida coloque el nombre en el espacio del Jugador 1, ya que por defecto este jugador comenzará con el primer turno.

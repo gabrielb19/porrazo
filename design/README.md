@@ -6,7 +6,7 @@
 
 ## **README Principal:**
 
-[README]()
+[README](https://github.com/gabrielb19/porrazo#readme)
 
 ## **Creditos**
 
