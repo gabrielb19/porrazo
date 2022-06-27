@@ -4,9 +4,11 @@ import java.awt.event.*;
 
 public class Controlador implements ActionListener{
     private Interfaz interfaz;
+    private boolean jugar; 
 
     Controlador() {
         this.interfaz = new Interfaz();
+        this.jugar = false; 
     }
 
     public void iniciar_juego() {
@@ -16,7 +18,18 @@ public class Controlador implements ActionListener{
         
         boolean primera_iteracion = true;
         boolean hay_ganador = false;
-        
+
+        this.interfaz.pantalla_login();
+        agregar_action_listeners_login();
+
+        while(jugar == false) {
+            System.out.print("");
+        }
+
+        conseguir_nombres();
+
+        this.interfaz.reset(this.interfaz.get_pantalla_login());
+
         FuncionalidadJugador.get().elegir_jugador_actual();
 
         while(!hay_ganador) {
@@ -30,7 +43,7 @@ public class Controlador implements ActionListener{
                 comodin = "imagenes/vacio.png";
             }
 
-            this.interfaz.pantalla_principal(imagenes, comodin, "TURNO DE COMER DEL JUGADOR "+ FuncionalidadJugador.get().get_jugador_actual().get_nombre());
+            this.interfaz.pantalla_principal(imagenes, comodin, "Turno De Comer De: "+ FuncionalidadJugador.get().get_jugador_actual().get_nombre());
             agregar_action_listeners_comer();
 
             agregar_action_listeners_reglas();
@@ -39,7 +52,7 @@ public class Controlador implements ActionListener{
                 System.out.print("");
             }
 
-            this.interfaz.reset();
+            this.interfaz.reset(this.interfaz.get_pantalla_principal());
             this.interfaz = new Interfaz();
 
             imagenes = FuncionalidadCartas.get().cards_to_strings_vector(FuncionalidadJugador.get().get_jugador_actual().get_cartas());
@@ -49,7 +62,7 @@ public class Controlador implements ActionListener{
             else {
                 comodin = "imagenes/vacio.png";
             }
-            this.interfaz.pantalla_principal(imagenes, comodin, "TURNO DE BOTAR UNA CARTA DEL JUGADOR "+ FuncionalidadJugador.get().get_jugador_actual().get_nombre());
+            this.interfaz.pantalla_principal(imagenes, comodin, "TURNO DE BOTAR UNA CARTA DEL JUGADOR: "+ FuncionalidadJugador.get().get_jugador_actual().get_nombre());
             agregar_action_listeners_desechar();
 
             agregar_action_listeners_reglas();
@@ -58,7 +71,7 @@ public class Controlador implements ActionListener{
                 System.out.print("");
             }
 
-            this.interfaz.reset();
+            this.interfaz.reset(this.interfaz.get_pantalla_principal());
             this.interfaz = new Interfaz();
 
             FuncionalidadJugador.get().get_jugador_actual().set_comio(false);
@@ -67,6 +80,25 @@ public class Controlador implements ActionListener{
             FuncionalidadJugador.get().cambiar_jugador_actual();
             primera_iteracion = false;
         }
+    }
+
+    public void agregar_action_listeners_login() {
+        this.interfaz.get_boton_jugar().addActionListener(this);
+    }
+
+    public void conseguir_nombres() {
+        
+        FuncionalidadJugador jugadores = FuncionalidadJugador.get(); 
+
+        String nombre1 = "";
+        String nombre2 = "";
+
+        nombre1 = this.interfaz.get_jugador_1().getText();
+        nombre2 = this.interfaz.get_jugador_2().getText();  
+
+        jugadores.get_jugador_1().setNombre(nombre1);
+        jugadores.get_jugador_2().setNombre(nombre2);
+
     }
 
     public void agregar_action_listeners_comer() {
@@ -115,6 +147,11 @@ public class Controlador implements ActionListener{
                 else {
                     if(e.getSource() == this.interfaz.get_boton_reglas()) {
                         this.interfaz.desplegar_reglas();
+                    }
+                    else {
+                        if(e.getSource() == this.interfaz.get_boton_jugar()) {
+                            this.jugar = true; 
+                        }
                     }
                 }
             }

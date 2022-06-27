@@ -58,15 +58,9 @@ public class FuncionalidadJugador {
     }
 
     public void elegir_jugador_actual () {
-        int num = this.numero_aleatorio(0, 2);
-        switch (num) {
-            case 0:
-                this.jugador_actual = this.jugador1;
-            break;
-            case 1:
-                this.jugador_actual = this.jugador1;
-            break;
-        }
+                    
+        this.jugador_actual = this.jugador1;
+
     }
 
     public void cambiar_jugador_actual() {
@@ -85,6 +79,14 @@ public class FuncionalidadJugador {
 
     public Jugador get_jugador_actual() {
         return this.jugador_actual;
+    }
+
+    public Jugador get_jugador_1() {
+        return this.jugador1;
+    }
+
+    public Jugador get_jugador_2() {
+        return this.jugador2;
     }
 }
 
