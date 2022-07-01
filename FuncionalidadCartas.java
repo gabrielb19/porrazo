@@ -56,7 +56,6 @@ public class FuncionalidadCartas {
     }
 
     public Vector<Carta> ordenar_mazo(Vector<Carta> cartas) {
-
         Carta arregloAux[] = new Carta[cartas.size()]; 
         Vector<Carta> cartas_ordenadas = new Vector<Carta>(); 
 
@@ -135,8 +134,7 @@ public class FuncionalidadCartas {
         return tiene_iguales; 
     }
 
-    public boolean puede_ganar(Vector<Carta> grupo1, Vector<Carta> grupo2 ) {
-        
+    public boolean puede_ganar(Vector<Carta> grupo1, Vector<Carta> grupo2 ) {  
         boolean gano = false;
         boolean hay_cartas_iguales_1 = false;
         boolean hay_escalera_1 = false;

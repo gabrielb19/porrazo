@@ -57,8 +57,7 @@ public class FuncionalidadJugador {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
-    public void elegir_jugador_actual () {
-                    
+    public void elegir_jugador_actual () {        
         this.jugador_actual = this.jugador1;
 
     }

@@ -32,8 +32,7 @@ public class Controlador implements ActionListener{
 
         FuncionalidadJugador.get().elegir_jugador_actual();
 
-        while(!hay_ganador) {
-            
+        while(!hay_ganador) {     
             Vector<String> imagenes = FuncionalidadCartas.get().cards_to_strings_vector(FuncionalidadJugador.get().get_jugador_actual().get_cartas());
             String comodin = "";
             if (!primera_iteracion && !FuncionalidadCartas.get().get_comodines().empty()) {
@@ -87,7 +86,6 @@ public class Controlador implements ActionListener{
     }
 
     public void conseguir_nombres() {
-        
         FuncionalidadJugador jugadores = FuncionalidadJugador.get(); 
 
         String nombre1 = "";
@@ -98,7 +96,6 @@ public class Controlador implements ActionListener{
 
         jugadores.get_jugador_1().setNombre(nombre1);
         jugadores.get_jugador_2().setNombre(nombre2);
-
     }
 
     public void agregar_action_listeners_comer() {
