@@ -1,23 +1,88 @@
 import java.util.Stack;  
-import java.util.Vector;
+import java.util.Vector;  
 
-public class FuncionalidadCartas {
+public class Mesa {
+    private Jugador jugador1;
+    private Jugador jugador2;
+    private Jugador jugador_actual;
 
-    private static FuncionalidadCartas instancia; 
     private Stack<Carta> mazo;
     private Stack<Carta> comodines;
     private Vector<Carta> baraja;
+    
+    public Mesa(){
+        this.jugador1 = new Jugador("1");
+        this.jugador2 = new Jugador("2");
 
-    public static FuncionalidadCartas get() {
-        if (instancia == null) {
-            instancia = new FuncionalidadCartas(); 
-        }
-        return instancia; 
-    }    
-    private FuncionalidadCartas() {
         this.mazo = new Stack<Carta>();
         this.comodines = new Stack<Carta>();
         this.baraja = new Vector<Carta>();
+    }
+
+    public void repartir_cartas() {
+        
+        for (int j = 0; j < 7; j += 1) {
+            this.jugador1.recibir_carta(this.mazo.pop());
+            this.jugador2.recibir_carta(this.mazo.pop());
+        }
+    }
+
+    public boolean entregar_carta(Jugador jugador, int num) {
+        boolean entregada = false;
+        if (num == 0) {
+            if (this.mazo.empty()) {
+                System.out.println("El mazo está vacio");
+            }
+            else {
+                jugador.recibir_carta(this.mazo.pop());
+                entregada = true;
+            }
+        }
+        else {
+            if (this.comodines.empty()) {
+                System.out.println("La pila de comodines esta vacia");
+            }
+            else {
+                jugador.recibir_carta(this.comodines.pop());
+                entregada = true;
+            }
+        }
+        return entregada;
+    }
+
+
+    public  int numero_aleatorio(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
+
+    public void elegir_jugador_actual () {        
+        this.jugador_actual = this.jugador1;
+
+    }
+
+    public void cambiar_jugador_actual() {
+        if (this.jugador_actual == this.jugador1) {
+            this.jugador1 = this.jugador_actual;
+            this.jugador_actual = jugador2;
+        }
+        else {
+            if (this.jugador_actual == this.jugador2) {
+                this.jugador2 = this.jugador_actual;
+                this.jugador_actual = jugador1;
+            }
+        }
+    }
+
+    public Jugador get_jugador_actual() {
+        return this.jugador_actual;
+    }
+
+    public Jugador get_jugador_1() {
+        return this.jugador1;
+    }
+
+    public Jugador get_jugador_2() {
+        return this.jugador2;
     }
 
     public void crear_baraja() {
@@ -38,10 +103,6 @@ public class FuncionalidadCartas {
             }
         }
         return pertenece;
-    }
-
-    public  int numero_aleatorio(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
     }
 
     public void crear_mazo() {
@@ -179,3 +240,5 @@ public class FuncionalidadCartas {
     }
 
 }
+
+

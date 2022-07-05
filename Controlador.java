@@ -5,6 +5,7 @@ import java.awt.event.*;
 public class Controlador implements ActionListener{
     private Interfaz interfaz;
     private boolean jugar; 
+    Mesa mesa = new Mesa(); 
 
     Controlador() {
         this.interfaz = new Interfaz();
@@ -12,9 +13,9 @@ public class Controlador implements ActionListener{
     }
 
     public void iniciar_juego() {
-        FuncionalidadCartas.get().crear_baraja();
-        FuncionalidadCartas.get().crear_mazo();
-        FuncionalidadJugador.get().repartir_cartas();
+        mesa.crear_baraja();
+        mesa.crear_mazo();
+        mesa.repartir_cartas();
         
         boolean primera_iteracion = true;
         boolean hay_ganador = false;
@@ -30,55 +31,55 @@ public class Controlador implements ActionListener{
 
         this.interfaz.reset(this.interfaz.get_pantalla_login());
 
-        FuncionalidadJugador.get().elegir_jugador_actual();
+        mesa.elegir_jugador_actual();
 
         while(!hay_ganador) {     
-            Vector<String> imagenes = FuncionalidadCartas.get().cards_to_strings_vector(FuncionalidadJugador.get().get_jugador_actual().get_cartas());
+            Vector<String> imagenes = mesa.cards_to_strings_vector(mesa.get_jugador_actual().get_cartas());
             String comodin = "";
-            if (!primera_iteracion && !FuncionalidadCartas.get().get_comodines().empty()) {
-                comodin = FuncionalidadCartas.get().get_comodines().peek().get_imagen();
+            if (!primera_iteracion && !mesa.get_comodines().empty()) {
+                comodin = mesa.get_comodines().peek().get_imagen();
             }   
             else {
                 comodin = "imagenes/vacio.png";
             }
 
-            this.interfaz.pantalla_principal(imagenes, comodin, "Turno De Comer De: "+ FuncionalidadJugador.get().get_jugador_actual().get_nombre());
+            this.interfaz.pantalla_principal(imagenes, comodin, "Turno De Comer De: "+ mesa.get_jugador_actual().get_nombre());
             agregar_action_listeners_comer();
 
             agregar_action_listeners_reglas();
             agregar_action_listeners_partida();
 
-            while (!FuncionalidadJugador.get().get_jugador_actual().get_comio()){
+            while (!mesa.get_jugador_actual().get_comio()){
                 System.out.print("");
             }
 
             this.interfaz.reset(this.interfaz.get_pantalla_principal());
             this.interfaz = new Interfaz();
 
-            imagenes = FuncionalidadCartas.get().cards_to_strings_vector(FuncionalidadJugador.get().get_jugador_actual().get_cartas());
-            if (!primera_iteracion && !FuncionalidadCartas.get().get_comodines().empty()) {
-                comodin = FuncionalidadCartas.get().get_comodines().peek().get_imagen();
+            imagenes = mesa.cards_to_strings_vector(mesa.get_jugador_actual().get_cartas());
+            if (!primera_iteracion && !mesa.get_comodines().empty()) {
+                comodin = mesa.get_comodines().peek().get_imagen();
             }   
             else {
                 comodin = "imagenes/vacio.png";
             }
-            this.interfaz.pantalla_principal(imagenes, comodin, "TURNO DE BOTAR UNA CARTA DEL JUGADOR: "+ FuncionalidadJugador.get().get_jugador_actual().get_nombre());
+            this.interfaz.pantalla_principal(imagenes, comodin, "Turno de botar una carta de: "+ mesa.get_jugador_actual().get_nombre());
             agregar_action_listeners_desechar();
 
             agregar_action_listeners_reglas();
             agregar_action_listeners_partida();
 
-            while (!FuncionalidadJugador.get().get_jugador_actual().get_desecho()){
+            while (!mesa.get_jugador_actual().get_desecho()){
                 System.out.print("");
             }
 
             this.interfaz.reset(this.interfaz.get_pantalla_principal());
             this.interfaz = new Interfaz();
 
-            FuncionalidadJugador.get().get_jugador_actual().set_comio(false);
-            FuncionalidadJugador.get().get_jugador_actual().set_desecho(false);
+            mesa.get_jugador_actual().set_comio(false);
+            mesa.get_jugador_actual().set_desecho(false);
             
-            FuncionalidadJugador.get().cambiar_jugador_actual();
+            mesa.cambiar_jugador_actual();
             primera_iteracion = false;
         }
     }
@@ -88,16 +89,14 @@ public class Controlador implements ActionListener{
     }
 
     public void conseguir_nombres() {
-        FuncionalidadJugador jugadores = FuncionalidadJugador.get(); 
-
         String nombre1 = "";
         String nombre2 = "";
 
         nombre1 = this.interfaz.get_jugador_1().getText();
         nombre2 = this.interfaz.get_jugador_2().getText();  
 
-        jugadores.get_jugador_1().setNombre(nombre1);
-        jugadores.get_jugador_2().setNombre(nombre2);
+        mesa.get_jugador_1().setNombre(nombre1);
+        mesa.get_jugador_2().setNombre(nombre2);
     }
 
     public void agregar_action_listeners_comer() {
@@ -129,21 +128,21 @@ public class Controlador implements ActionListener{
             if (e.getSource() == this.interfaz.get_mano_cartas().elementAt(i)) {
                 System.out.println("CARTA PRESIONADA");
                 index = i;
-                FuncionalidadCartas.get().agregar_carta_comodines(FuncionalidadJugador.get().get_jugador_actual().desechar_carta(index));
-                FuncionalidadJugador.get().get_jugador_actual().set_desecho(true);
+                mesa.agregar_carta_comodines(mesa.get_jugador_actual().desechar_carta(index));
+                mesa.get_jugador_actual().set_desecho(true);
                 break;
             }
         }
         if (index == -1) {
             if (e.getSource() == this.interfaz.get_comodin()) {
-                if (FuncionalidadJugador.get().entregar_carta(FuncionalidadJugador.get().get_jugador_actual(), 1)) {
-                    FuncionalidadJugador.get().get_jugador_actual().set_comio(true);
+                if (mesa.entregar_carta(mesa.get_jugador_actual(), 1)) {
+                    mesa.get_jugador_actual().set_comio(true);
                 }
             }
             else {
                 if (e.getSource() == this.interfaz.get_carta_secreta()) {
-                    if (FuncionalidadJugador.get().entregar_carta(FuncionalidadJugador.get().get_jugador_actual(), 0)) {
-                        FuncionalidadJugador.get().get_jugador_actual().set_comio(true);
+                    if (mesa.entregar_carta(mesa.get_jugador_actual(), 0)) {
+                        mesa.get_jugador_actual().set_comio(true);
                     }
                 }
                 else {
@@ -157,8 +156,8 @@ public class Controlador implements ActionListener{
                         else {
                             if (e.getSource() == this.interfaz.get_boton_partida()) {
                                 GuardaPartidas g = new GuardaPartidas();
-                                g.escribir_en_archivo(FuncionalidadJugador.get().get_jugador_1(), FuncionalidadJugador.get().get_jugador_2()
-                                    , FuncionalidadCartas.get().get_mazo(), FuncionalidadCartas.get().get_comodines());
+                                g.escribir_en_archivo(mesa.get_jugador_1(), mesa.get_jugador_2()
+                                    , mesa.get_mazo(), mesa.get_comodines());
                                 this.interfaz.reset(this.interfaz.get_pantalla_principal());
                             }
                         }
