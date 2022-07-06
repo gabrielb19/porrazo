@@ -16,7 +16,8 @@ public class Interfaz /*implements ActionListener*/ {
     private Vector<JButton> mano_cartas;
     private JButton carta_secreta;
     private JButton comodin;
-    private JButton boton_reglas; 
+    private JButton boton_reglas;
+    private JButton boton_partida; 
     private JButton boton_eleccion;
     private JButton boton_jugar;  
     private JTextField nombre_jugador_1;
@@ -120,6 +121,9 @@ public class Interfaz /*implements ActionListener*/ {
         this.boton_reglas = boton_generico(10, 10, 100, 50, "Reglas");
         frame.add(boton_reglas);
 
+        this.boton_partida = boton_generico(1690, 10, 200, 50, "Guardar partida");
+        frame.add(boton_partida);
+
         this.carta_secreta = crear_boton_carta(250, 300, 127, 200, "imagenes/carta.png");
         frame.add(carta_secreta);
 
@@ -167,6 +171,10 @@ public class Interfaz /*implements ActionListener*/ {
 
     public JButton get_carta_secreta() {
         return this.carta_secreta;
+    }
+
+    public JButton get_boton_partida() {
+        return this.boton_partida;
     }
 
     public JTextField get_jugador_1() {

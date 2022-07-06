@@ -46,6 +46,7 @@ public class Controlador implements ActionListener{
             agregar_action_listeners_comer();
 
             agregar_action_listeners_reglas();
+            agregar_action_listeners_partida();
 
             while (!FuncionalidadJugador.get().get_jugador_actual().get_comio()){
                 System.out.print("");
@@ -65,6 +66,7 @@ public class Controlador implements ActionListener{
             agregar_action_listeners_desechar();
 
             agregar_action_listeners_reglas();
+            agregar_action_listeners_partida();
 
             while (!FuncionalidadJugador.get().get_jugador_actual().get_desecho()){
                 System.out.print("");
@@ -101,7 +103,10 @@ public class Controlador implements ActionListener{
     public void agregar_action_listeners_comer() {
         this.interfaz.get_comodin().addActionListener(this);
         this.interfaz.get_carta_secreta().addActionListener(this);
-        this.interfaz.get_boton_reglas().addActionListener(this);
+    }
+
+    public void agregar_action_listeners_partida() {
+        this.interfaz.get_boton_partida().addActionListener(this);
     }
 
     public void agregar_action_listeners_grupos() {
@@ -148,6 +153,14 @@ public class Controlador implements ActionListener{
                     else {
                         if(e.getSource() == this.interfaz.get_boton_jugar()) {
                             this.jugar = true; 
+                        }
+                        else {
+                            if (e.getSource() == this.interfaz.get_boton_partida()) {
+                                GuardaPartidas g = new GuardaPartidas();
+                                g.escribir_en_archivo(FuncionalidadJugador.get().get_jugador_1(), FuncionalidadJugador.get().get_jugador_2()
+                                    , FuncionalidadCartas.get().get_mazo(), FuncionalidadCartas.get().get_comodines());
+                                this.interfaz.reset(this.interfaz.get_pantalla_principal());
+                            }
                         }
                     }
                 }
