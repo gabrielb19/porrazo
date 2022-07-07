@@ -165,6 +165,7 @@ public class Controlador implements ActionListener{
                                 g.escribir_en_archivo(this.j1, this.j2
                                     , mesa.get_mazo(), mesa.get_comodines());
                                 this.interfaz.reset(this.interfaz.get_pantalla_principal());
+                                System.exit(0);
                             }
                         }
                     }
