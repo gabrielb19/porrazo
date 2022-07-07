@@ -101,8 +101,8 @@ public class Controlador implements ActionListener{
         nombre1 = this.interfaz.get_jugador_1().getText();
         nombre2 = this.interfaz.get_jugador_2().getText();  
 
-        this.j1.setNombre(nombre1);
-        this.j2.setNombre(nombre2);
+        this.j1.set_nombre(nombre1);
+        this.j2.set_nombre(nombre2);
     }
 
     public void agregar_action_listeners_comer() {

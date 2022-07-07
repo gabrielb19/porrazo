@@ -52,7 +52,7 @@ public class Jugador {
         return this.cartas;
     }
 
-    public void setNombre(String nombre) {
+    public void set_nombre(String nombre) {
         this.nombre = nombre;
     }
 
