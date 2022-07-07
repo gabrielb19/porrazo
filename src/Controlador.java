@@ -1,18 +1,17 @@
 import java.util.Vector;
 import java.awt.event.*;
 
-
-public class Controlador implements ActionListener{
+public class Controlador implements ActionListener {
     private Interfaz interfaz;
-    private boolean jugar; 
+    private boolean jugar;
     private Mesa mesa;
     private Jugador j1;
-    private Jugador j2; 
+    private Jugador j2;
     private Jugador jugador_actual;
 
     Controlador() {
         this.interfaz = new Interfaz();
-        this.jugar = false; 
+        this.jugar = false;
         this.mesa = new Mesa();
         this.j1 = new Jugador();
         this.j2 = new Jugador();
@@ -21,15 +20,15 @@ public class Controlador implements ActionListener{
 
     public void iniciar_juego() {
         mesa.crear_mazo();
-        mesa.repartir_cartas(this.j1,this.j2);
-        
+        mesa.repartir_cartas(this.j1, this.j2);
+
         boolean primera_iteracion = true;
         boolean hay_ganador = false;
 
         this.interfaz.pantalla_login();
         agregar_action_listeners_login();
 
-        while(jugar == false) {
+        while (jugar == false) {
             System.out.print("");
         }
 
@@ -39,23 +38,23 @@ public class Controlador implements ActionListener{
 
         elegir_jugador_actual();
 
-        while(!hay_ganador) {     
+        while (!hay_ganador) {
             Vector<String> imagenes = mesa.cards_to_strings_vector(this.jugador_actual.get_cartas());
             String comodin = "";
             if (!primera_iteracion && !mesa.get_comodines().empty()) {
                 comodin = mesa.get_comodines().peek().get_imagen();
-            }   
-            else {
+            } else {
                 comodin = "imagenes/vacio.png";
             }
 
-            this.interfaz.pantalla_principal(imagenes, comodin, "Turno De Comer De: "+ this.jugador_actual.get_nombre());
+            this.interfaz.pantalla_principal(imagenes, comodin,
+                    "Turno De Comer De: " + this.jugador_actual.get_nombre());
             agregar_action_listeners_comer();
 
             agregar_action_listeners_reglas();
             agregar_action_listeners_partida();
 
-            while (!this.jugador_actual.get_comio()){
+            while (!this.jugador_actual.get_comio()) {
                 System.out.print("");
             }
 
@@ -65,17 +64,17 @@ public class Controlador implements ActionListener{
             imagenes = mesa.cards_to_strings_vector(this.jugador_actual.get_cartas());
             if (!primera_iteracion && !mesa.get_comodines().empty()) {
                 comodin = mesa.get_comodines().peek().get_imagen();
-            }   
-            else {
+            } else {
                 comodin = "imagenes/vacio.png";
             }
-            this.interfaz.pantalla_principal(imagenes, comodin, "Turno de botar una carta de: "+ this.jugador_actual.get_nombre());
+            this.interfaz.pantalla_principal(imagenes, comodin,
+                    "Turno de botar una carta de: " + this.jugador_actual.get_nombre());
             agregar_action_listeners_desechar();
 
             agregar_action_listeners_reglas();
             agregar_action_listeners_partida();
 
-            while (!this.jugador_actual.get_desecho()){
+            while (!this.jugador_actual.get_desecho()) {
                 System.out.print("");
             }
 
@@ -84,7 +83,7 @@ public class Controlador implements ActionListener{
 
             this.jugador_actual.set_comio(false);
             this.jugador_actual.set_desecho(false);
-            
+
             cambiar_jugador_actual();
             primera_iteracion = false;
         }
@@ -99,7 +98,7 @@ public class Controlador implements ActionListener{
         String nombre2 = "";
 
         nombre1 = this.interfaz.get_jugador_1().getText();
-        nombre2 = this.interfaz.get_jugador_2().getText();  
+        nombre2 = this.interfaz.get_jugador_2().getText();
 
         this.j1.set_nombre(nombre1);
         this.j2.set_nombre(nombre2);
@@ -144,26 +143,21 @@ public class Controlador implements ActionListener{
                 if (mesa.entregar_carta(this.jugador_actual, 1)) {
                     this.jugador_actual.set_comio(true);
                 }
-            }
-            else {
+            } else {
                 if (e.getSource() == this.interfaz.get_carta_secreta()) {
                     if (mesa.entregar_carta(this.jugador_actual, 0)) {
                         this.jugador_actual.set_comio(true);
                     }
-                }
-                else {
-                    if(e.getSource() == this.interfaz.get_boton_reglas()) {
+                } else {
+                    if (e.getSource() == this.interfaz.get_boton_reglas()) {
                         this.interfaz.desplegar_reglas();
-                    }
-                    else {
-                        if(e.getSource() == this.interfaz.get_boton_jugar()) {
-                            this.jugar = true; 
-                        }
-                        else {
+                    } else {
+                        if (e.getSource() == this.interfaz.get_boton_jugar()) {
+                            this.jugar = true;
+                        } else {
                             if (e.getSource() == this.interfaz.get_boton_partida()) {
                                 GuardaPartidas g = new GuardaPartidas();
-                                g.escribir_en_archivo(this.j1, this.j2
-                                    , mesa.get_mazo(), mesa.get_comodines());
+                                g.escribir_en_archivo(this.j1, this.j2, mesa.get_mazo(), mesa.get_comodines());
                                 this.interfaz.reset(this.interfaz.get_pantalla_principal());
                                 System.exit(0);
                             }
@@ -174,7 +168,7 @@ public class Controlador implements ActionListener{
         }
     }
 
-    public void elegir_jugador_actual () {        
+    public void elegir_jugador_actual() {
         this.jugador_actual = this.j1;
     }
 
@@ -182,14 +176,12 @@ public class Controlador implements ActionListener{
         if (this.jugador_actual == this.j1) {
             this.j1 = this.jugador_actual;
             this.jugador_actual = j2;
-        }
-        else {
+        } else {
             if (this.jugador_actual == this.j2) {
                 this.j2 = this.jugador_actual;
                 this.jugador_actual = j1;
             }
         }
     }
-
 
 }

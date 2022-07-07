@@ -3,29 +3,29 @@ import java.util.Vector;
 import java.awt.Image;
 import java.awt.event.*;
 import java.awt.Font;
-import java.awt.Color; 
+import java.awt.Color;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.awt.Dimension;
 
-public class Interfaz /*implements ActionListener*/ {
-    private JFrame loginFrame; 
+public class Interfaz /* implements ActionListener */ {
+    private JFrame loginFrame;
     private JFrame frame;
     private Vector<JButton> mano_cartas;
     private JButton carta_secreta;
     private JButton comodin;
     private JButton boton_reglas;
-    private JButton boton_partida; 
+    private JButton boton_partida;
     private JButton boton_eleccion;
-    private JButton boton_jugar;  
+    private JButton boton_jugar;
     private JTextField nombre_jugador_1;
     private JTextField nombre_jugador_2;
-    
-    public Interfaz(){
+
+    public Interfaz() {
         this.frame = new JFrame();
-        this.loginFrame = new JFrame(); 
+        this.loginFrame = new JFrame();
         this.mano_cartas = new Vector<JButton>();
         this.carta_secreta = new JButton();
         this.comodin = new JButton();
@@ -33,29 +33,29 @@ public class Interfaz /*implements ActionListener*/ {
 
     public JButton crear_boton_carta(int x, int y, int width, int height, String imagen) {
         ImageIcon imageIcon = new ImageIcon(imagen);
-        Image image = imageIcon.getImage(); // transform it 
-        Image newimg = image.getScaledInstance(width, height,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        Image image = imageIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         imageIcon = new ImageIcon(newimg);
         JButton boton = new JButton((imageIcon));
-        boton.setBounds(x,y,width,height);
+        boton.setBounds(x, y, width, height);
         return boton;
     }
 
     public JButton boton_generico(int x, int y, int width, int height, String texto) {
         JButton boton = new JButton(texto);
-        boton.setBounds(x,y,width,height);
+        boton.setBounds(x, y, width, height);
         return boton;
     }
 
     public JTextField texto_jugador_1() {
         JTextField userTextField1 = new JTextField();
-        userTextField1.setBounds(180,200,150,30);
+        userTextField1.setBounds(180, 200, 150, 30);
         return userTextField1;
     }
 
     public JTextField texto_jugador_2() {
         JTextField userTextField2 = new JTextField();
-        userTextField2.setBounds(180,250,150,30);
+        userTextField2.setBounds(180, 250, 150, 30);
         return userTextField2;
     }
 
@@ -81,20 +81,19 @@ public class Interfaz /*implements ActionListener*/ {
         texto2.setBounds(180, 140, 1000, 200);
         loginFrame.add(texto2);
 
-
         this.boton_jugar = boton_generico(180, 300, 150, 50, "Jugar");
         this.loginFrame.add(boton_jugar);
 
-        this.loginFrame.setBounds(500,200,400,400);
-        this.nombre_jugador_1 = texto_jugador_1(); 
-        this.nombre_jugador_2 = texto_jugador_2(); 
+        this.loginFrame.setBounds(500, 200, 400, 400);
+        this.nombre_jugador_1 = texto_jugador_1();
+        this.nombre_jugador_2 = texto_jugador_2();
 
         this.loginFrame.add(nombre_jugador_1);
         this.loginFrame.add(nombre_jugador_2);
-        
+
         loginFrame.getContentPane().setBackground(new Color(0, 100, 0));
         loginFrame.setResizable(false);
-        loginFrame.setSize(500,500);
+        loginFrame.setSize(500, 500);
         loginFrame.setLayout(null);
         loginFrame.setVisible(true);
     }
@@ -130,9 +129,9 @@ public class Interfaz /*implements ActionListener*/ {
         this.comodin = crear_boton_carta(250, 650, 127, 200, tope_desechadas);
         frame.add(comodin);
 
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setBackground(new Color(0, 100, 0));
-        frame.setSize(1920,1080);
+        frame.setSize(1920, 1080);
         frame.setLayout(null);
         frame.setVisible(true);
     }
@@ -142,11 +141,11 @@ public class Interfaz /*implements ActionListener*/ {
     }
 
     public JFrame get_pantalla_principal() {
-        return this.frame; 
+        return this.frame;
     }
 
     public JFrame get_pantalla_login() {
-        return this.loginFrame; 
+        return this.loginFrame;
     }
 
     public Vector<JButton> get_mano_cartas() {
@@ -187,13 +186,13 @@ public class Interfaz /*implements ActionListener*/ {
 
     public void desplegar_reglas() {
         Path filePath = Path.of("reglas.txt");
-        String content = ""; 
+        String content = "";
         try {
             content = Files.readString(filePath, StandardCharsets.US_ASCII);
         } catch (IOException e) {
             System.out.println("Error en cargar de archivo");
         }
-    
+
         JOptionPane.showMessageDialog(null, content);
     }
 
