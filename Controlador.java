@@ -5,17 +5,23 @@ import java.awt.event.*;
 public class Controlador implements ActionListener{
     private Interfaz interfaz;
     private boolean jugar; 
-    Mesa mesa = new Mesa(); 
+    private Mesa mesa;
+    private Jugador j1;
+    private Jugador j2; 
+    private Jugador jugador_actual;
 
     Controlador() {
         this.interfaz = new Interfaz();
         this.jugar = false; 
+        this.mesa = new Mesa();
+        this.j1 = new Jugador();
+        this.j2 = new Jugador();
+        this.jugador_actual = new Jugador();
     }
 
     public void iniciar_juego() {
-        mesa.crear_baraja();
         mesa.crear_mazo();
-        mesa.repartir_cartas();
+        mesa.repartir_cartas(this.j1,this.j2);
         
         boolean primera_iteracion = true;
         boolean hay_ganador = false;
@@ -31,10 +37,10 @@ public class Controlador implements ActionListener{
 
         this.interfaz.reset(this.interfaz.get_pantalla_login());
 
-        mesa.elegir_jugador_actual();
+        elegir_jugador_actual();
 
         while(!hay_ganador) {     
-            Vector<String> imagenes = mesa.cards_to_strings_vector(mesa.get_jugador_actual().get_cartas());
+            Vector<String> imagenes = mesa.cards_to_strings_vector(this.jugador_actual.get_cartas());
             String comodin = "";
             if (!primera_iteracion && !mesa.get_comodines().empty()) {
                 comodin = mesa.get_comodines().peek().get_imagen();
@@ -43,43 +49,43 @@ public class Controlador implements ActionListener{
                 comodin = "imagenes/vacio.png";
             }
 
-            this.interfaz.pantalla_principal(imagenes, comodin, "Turno De Comer De: "+ mesa.get_jugador_actual().get_nombre());
+            this.interfaz.pantalla_principal(imagenes, comodin, "Turno De Comer De: "+ this.jugador_actual.get_nombre());
             agregar_action_listeners_comer();
 
             agregar_action_listeners_reglas();
             agregar_action_listeners_partida();
 
-            while (!mesa.get_jugador_actual().get_comio()){
+            while (!this.jugador_actual.get_comio()){
                 System.out.print("");
             }
 
             this.interfaz.reset(this.interfaz.get_pantalla_principal());
             this.interfaz = new Interfaz();
 
-            imagenes = mesa.cards_to_strings_vector(mesa.get_jugador_actual().get_cartas());
+            imagenes = mesa.cards_to_strings_vector(this.jugador_actual.get_cartas());
             if (!primera_iteracion && !mesa.get_comodines().empty()) {
                 comodin = mesa.get_comodines().peek().get_imagen();
             }   
             else {
                 comodin = "imagenes/vacio.png";
             }
-            this.interfaz.pantalla_principal(imagenes, comodin, "Turno de botar una carta de: "+ mesa.get_jugador_actual().get_nombre());
+            this.interfaz.pantalla_principal(imagenes, comodin, "Turno de botar una carta de: "+ this.jugador_actual.get_nombre());
             agregar_action_listeners_desechar();
 
             agregar_action_listeners_reglas();
             agregar_action_listeners_partida();
 
-            while (!mesa.get_jugador_actual().get_desecho()){
+            while (!this.jugador_actual.get_desecho()){
                 System.out.print("");
             }
 
             this.interfaz.reset(this.interfaz.get_pantalla_principal());
             this.interfaz = new Interfaz();
 
-            mesa.get_jugador_actual().set_comio(false);
-            mesa.get_jugador_actual().set_desecho(false);
+            this.jugador_actual.set_comio(false);
+            this.jugador_actual.set_desecho(false);
             
-            mesa.cambiar_jugador_actual();
+            cambiar_jugador_actual();
             primera_iteracion = false;
         }
     }
@@ -95,8 +101,8 @@ public class Controlador implements ActionListener{
         nombre1 = this.interfaz.get_jugador_1().getText();
         nombre2 = this.interfaz.get_jugador_2().getText();  
 
-        mesa.get_jugador_1().setNombre(nombre1);
-        mesa.get_jugador_2().setNombre(nombre2);
+        this.j1.setNombre(nombre1);
+        this.j2.setNombre(nombre2);
     }
 
     public void agregar_action_listeners_comer() {
@@ -128,21 +134,21 @@ public class Controlador implements ActionListener{
             if (e.getSource() == this.interfaz.get_mano_cartas().elementAt(i)) {
                 System.out.println("CARTA PRESIONADA");
                 index = i;
-                mesa.agregar_carta_comodines(mesa.get_jugador_actual().desechar_carta(index));
-                mesa.get_jugador_actual().set_desecho(true);
+                mesa.agregar_carta_comodines(this.jugador_actual.desechar_carta(index));
+                this.jugador_actual.set_desecho(true);
                 break;
             }
         }
         if (index == -1) {
             if (e.getSource() == this.interfaz.get_comodin()) {
-                if (mesa.entregar_carta(mesa.get_jugador_actual(), 1)) {
-                    mesa.get_jugador_actual().set_comio(true);
+                if (mesa.entregar_carta(this.jugador_actual, 1)) {
+                    this.jugador_actual.set_comio(true);
                 }
             }
             else {
                 if (e.getSource() == this.interfaz.get_carta_secreta()) {
-                    if (mesa.entregar_carta(mesa.get_jugador_actual(), 0)) {
-                        mesa.get_jugador_actual().set_comio(true);
+                    if (mesa.entregar_carta(this.jugador_actual, 0)) {
+                        this.jugador_actual.set_comio(true);
                     }
                 }
                 else {
@@ -156,7 +162,7 @@ public class Controlador implements ActionListener{
                         else {
                             if (e.getSource() == this.interfaz.get_boton_partida()) {
                                 GuardaPartidas g = new GuardaPartidas();
-                                g.escribir_en_archivo(mesa.get_jugador_1(), mesa.get_jugador_2()
+                                g.escribir_en_archivo(this.j1, this.j2
                                     , mesa.get_mazo(), mesa.get_comodines());
                                 this.interfaz.reset(this.interfaz.get_pantalla_principal());
                             }
@@ -166,4 +172,23 @@ public class Controlador implements ActionListener{
             }
         }
     }
+
+    public void elegir_jugador_actual () {        
+        this.jugador_actual = this.j1;
+    }
+
+    public void cambiar_jugador_actual() {
+        if (this.jugador_actual == this.j1) {
+            this.j1 = this.jugador_actual;
+            this.jugador_actual = j2;
+        }
+        else {
+            if (this.jugador_actual == this.j2) {
+                this.j2 = this.jugador_actual;
+                this.jugador_actual = j1;
+            }
+        }
+    }
+
+
 }

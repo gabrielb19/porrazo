@@ -2,28 +2,26 @@ import java.util.Stack;
 import java.util.Vector;  
 
 public class Mesa {
-    private Jugador jugador1;
-    private Jugador jugador2;
-    private Jugador jugador_actual;
-
     private Stack<Carta> mazo;
     private Stack<Carta> comodines;
     private Vector<Carta> baraja;
     
     public Mesa(){
-        this.jugador1 = new Jugador("1");
-        this.jugador2 = new Jugador("2");
-
         this.mazo = new Stack<Carta>();
         this.comodines = new Stack<Carta>();
         this.baraja = new Vector<Carta>();
+        for (int i = 1; i < 14; i += 1) {
+            baraja.add(new Carta (i, "corazon", "imagenes/"+i+"_of_hearts.png"));
+            baraja.add(new Carta (i, "pica", "imagenes/"+i+"_of_spades.png"));
+            baraja.add(new Carta (i, "trebol", "imagenes/"+i+"_of_clubs.png"));
+            baraja.add(new Carta (i, "rombo", "imagenes/"+i+"_of_diamonds.png"));
+        }
     }
 
-    public void repartir_cartas() {
-        
+    public void repartir_cartas(Jugador j1, Jugador j2) {
         for (int j = 0; j < 7; j += 1) {
-            this.jugador1.recibir_carta(this.mazo.pop());
-            this.jugador2.recibir_carta(this.mazo.pop());
+            j1.recibir_carta(this.mazo.pop());
+            j2.recibir_carta(this.mazo.pop());
         }
     }
 
@@ -50,48 +48,8 @@ public class Mesa {
         return entregada;
     }
 
-
     public  int numero_aleatorio(int min, int max) {
         return (int) ((Math.random() * (max - min)) + min);
-    }
-
-    public void elegir_jugador_actual () {        
-        this.jugador_actual = this.jugador1;
-
-    }
-
-    public void cambiar_jugador_actual() {
-        if (this.jugador_actual == this.jugador1) {
-            this.jugador1 = this.jugador_actual;
-            this.jugador_actual = jugador2;
-        }
-        else {
-            if (this.jugador_actual == this.jugador2) {
-                this.jugador2 = this.jugador_actual;
-                this.jugador_actual = jugador1;
-            }
-        }
-    }
-
-    public Jugador get_jugador_actual() {
-        return this.jugador_actual;
-    }
-
-    public Jugador get_jugador_1() {
-        return this.jugador1;
-    }
-
-    public Jugador get_jugador_2() {
-        return this.jugador2;
-    }
-
-    public void crear_baraja() {
-        for (int i = 1; i < 14; i += 1) {
-            baraja.add(new Carta (i, "corazon", "imagenes/"+i+"_of_hearts.png"));
-            baraja.add(new Carta (i, "pica", "imagenes/"+i+"_of_spades.png"));
-            baraja.add(new Carta (i, "trebol", "imagenes/"+i+"_of_clubs.png"));
-            baraja.add(new Carta (i, "rombo", "imagenes/"+i+"_of_diamonds.png"));
-        }
     }
 
     private boolean pertenece(Vector<Integer> nums, int num) {
