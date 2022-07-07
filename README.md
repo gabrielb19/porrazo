@@ -26,11 +26,11 @@
 
 ### **Compilacion :**
 
-`javac *.java`
+`javac -d bin/ src/*.java`
 
 ### **Ejecucion :**
 
-`java Main`
+`java -cp bin/ Main`
 
 ## **Creditos**
 
