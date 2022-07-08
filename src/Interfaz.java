@@ -20,6 +20,7 @@ public class Interfaz /* implements ActionListener */ {
     private JButton boton_partida;
     private JButton boton_eleccion;
     private JButton boton_jugar;
+    private JButton boton_cargar;
     private JTextField nombre_jugador_1;
     private JTextField nombre_jugador_2;
 
@@ -83,6 +84,9 @@ public class Interfaz /* implements ActionListener */ {
 
         this.boton_jugar = boton_generico(180, 300, 150, 50, "Jugar");
         this.loginFrame.add(boton_jugar);
+
+        this.boton_cargar =  boton_generico(180, 360, 150, 50, "Cargar Partida");
+        this.loginFrame.add(boton_cargar);
 
         this.loginFrame.setBounds(500, 200, 400, 400);
         this.nombre_jugador_1 = texto_jugador_1();
@@ -166,6 +170,10 @@ public class Interfaz /* implements ActionListener */ {
 
     public JButton get_boton_jugar() {
         return this.boton_jugar;
+    }
+
+    public JButton get_boton_cargar() {
+        return this.boton_cargar;
     }
 
     public JButton get_carta_secreta() {

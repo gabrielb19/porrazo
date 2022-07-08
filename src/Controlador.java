@@ -1,9 +1,11 @@
 import java.util.Vector;
+import java.util.Stack;
 import java.awt.event.*;
 
 public class Controlador implements ActionListener {
     private Interfaz interfaz;
     private boolean jugar;
+    private boolean cargar;
     private Mesa mesa;
     private Jugador j1;
     private Jugador j2;
@@ -28,7 +30,7 @@ public class Controlador implements ActionListener {
         this.interfaz.pantalla_login();
         agregar_action_listeners_login();
 
-        while (jugar == false) {
+        while ((jugar == false) && (cargar == false)) {
             System.out.print("");
         }
 
@@ -91,6 +93,7 @@ public class Controlador implements ActionListener {
 
     public void agregar_action_listeners_login() {
         this.interfaz.get_boton_jugar().addActionListener(this);
+        this.interfaz.get_boton_cargar().addActionListener(this); 
     }
 
     public void conseguir_nombres() {
@@ -155,12 +158,29 @@ public class Controlador implements ActionListener {
                         if (e.getSource() == this.interfaz.get_boton_jugar()) {
                             this.jugar = true;
                         } else {
-                            if (e.getSource() == this.interfaz.get_boton_partida()) {
+                            if (e.getSource() == this.interfaz.get_boton_cargar()) {
                                 GuardaPartidas g = new GuardaPartidas();
-                                g.escribir_en_archivo(this.j1, this.j2, mesa.get_mazo(), mesa.get_comodines());
-                                this.interfaz.reset(this.interfaz.get_pantalla_principal());
-                                System.exit(0);
-                            }
+                                Vector<Object> vecObj = g.cargarPartida(g.getline()); 
+
+                                this.j1 = (Jugador) vecObj.elementAt(0);
+                                this.j2 = (Jugador) vecObj.elementAt(1); 
+                                
+                                Stack<Carta> nuevoMazo = (Stack<Carta>) vecObj.elementAt(2); 
+                                this.mesa.set_mazo(nuevoMazo);
+
+                                Stack<Carta> nuevosComodines = (Stack<Carta>) vecObj.elementAt(3); 
+                                this.mesa.set_comodines(nuevosComodines);
+
+                                this.cargar = true; 
+
+                            } else {
+                                if (e.getSource() == this.interfaz.get_boton_partida()) {
+                                    GuardaPartidas g = new GuardaPartidas();
+                                    g.escribir_en_archivo(this.j1, this.j2, mesa.get_mazo(), mesa.get_comodines());
+                                    this.interfaz.reset(this.interfaz.get_pantalla_principal());
+                                    System.exit(0);
+                                }
+                            }    
                         }
                     }
                 }

@@ -181,8 +181,16 @@ public class Mesa {
         return this.mazo;
     }
 
+    public void set_mazo(Stack<Carta> mazo) {
+        this.mazo = mazo;
+    }
+
     public Stack<Carta> get_comodines() {
         return this.comodines;
+    }
+
+    public void set_comodines(Stack<Carta> comodines) {
+        this.comodines = comodines;
     }
 
     public Vector<String> cards_to_strings_vector(Vector<Carta> cartas) {
