@@ -127,7 +127,7 @@ public class Interfaz /* implements ActionListener */ {
         this.boton_partida = boton_generico(1690, 10, 200, 50, "Guardar partida");
         frame.add(boton_partida);
 
-        this.carta_secreta = crear_boton_carta(250, 300, 127, 200, "imagenes/carta.png");
+        this.carta_secreta = crear_boton_carta(250, 300, 127, 200, "../imagenes/carta.png");
         frame.add(carta_secreta);
 
         this.comodin = crear_boton_carta(250, 650, 127, 200, tope_desechadas);

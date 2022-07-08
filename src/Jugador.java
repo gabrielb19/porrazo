@@ -51,8 +51,8 @@ public class Jugador {
         return this.cartas;
     }
 
-    public void set_nombre(String nombre) {
-        this.nombre = nombre;
+    public void set_nombre(String nombre1) {
+        this.nombre = nombre1;
     }
 
     public void ver_cartas() {

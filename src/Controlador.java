@@ -43,10 +43,10 @@ public class Controlador implements ActionListener {
         while (!hay_ganador) {
             Vector<String> imagenes = mesa.cards_to_strings_vector(this.jugador_actual.get_cartas());
             String comodin = "";
-            if (!primera_iteracion && !mesa.get_comodines().empty()) {
+            if (!mesa.get_comodines().empty()) {
                 comodin = mesa.get_comodines().peek().get_imagen();
             } else {
-                comodin = "imagenes/vacio.png";
+                comodin = "../imagenes/vacio.png";
             }
 
             this.interfaz.pantalla_principal(imagenes, comodin,
@@ -64,10 +64,10 @@ public class Controlador implements ActionListener {
             this.interfaz = new Interfaz();
 
             imagenes = mesa.cards_to_strings_vector(this.jugador_actual.get_cartas());
-            if (!primera_iteracion && !mesa.get_comodines().empty()) {
+            if (!mesa.get_comodines().empty()) {
                 comodin = mesa.get_comodines().peek().get_imagen();
             } else {
-                comodin = "imagenes/vacio.png";
+                comodin = "../imagenes/vacio.png";
             }
             this.interfaz.pantalla_principal(imagenes, comodin,
                     "Turno de botar una carta de: " + this.jugador_actual.get_nombre());
@@ -99,12 +99,13 @@ public class Controlador implements ActionListener {
     public void conseguir_nombres() {
         String nombre1 = "";
         String nombre2 = "";
-
         nombre1 = this.interfaz.get_jugador_1().getText();
         nombre2 = this.interfaz.get_jugador_2().getText();
 
-        this.j1.set_nombre(nombre1);
-        this.j2.set_nombre(nombre2);
+        if (nombre1.length() != 0 && nombre2.length() != 0) {
+            this.j1.set_nombre(nombre1);
+            this.j2.set_nombre(nombre2);
+        }
     }
 
     public void agregar_action_listeners_comer() {
@@ -160,16 +161,16 @@ public class Controlador implements ActionListener {
                         } else {
                             if (e.getSource() == this.interfaz.get_boton_cargar()) {
                                 GuardaPartidas g = new GuardaPartidas();
-                                Vector<Object> vecObj = g.cargarPartida(g.getline()); 
-
-                                this.j1 = (Jugador) vecObj.elementAt(0);
+                                Vector<String> data = g.getline();
+                                System.out.println(data.size());
+                                Vector<Object> vecObj = g.cargarPartida(data); 
+                                System.out.println("TAMAÑO VECTOR" + vecObj.size());
+                                this.j1 = ((Jugador)vecObj.elementAt(0));
                                 this.j2 = (Jugador) vecObj.elementAt(1); 
                                 
-                                Stack<Carta> nuevoMazo = (Stack<Carta>) vecObj.elementAt(2); 
-                                this.mesa.set_mazo(nuevoMazo);
+                                this.mesa.set_mazo((Stack<Carta>)vecObj.elementAt(2));
 
-                                Stack<Carta> nuevosComodines = (Stack<Carta>) vecObj.elementAt(3); 
-                                this.mesa.set_comodines(nuevosComodines);
+                                this.mesa.set_comodines((Stack<Carta>)vecObj.elementAt(3));
 
                                 this.cargar = true; 
 

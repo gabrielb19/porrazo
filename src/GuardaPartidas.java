@@ -60,10 +60,9 @@ public class GuardaPartidas {
             FileReader partida = new FileReader("partida.txt");
             int valor = partida.read();
             while (valor != -1) {
-                if (valor != 13) {
-                    aux += (char) valor;
+                if ((char)valor != '\n') {
+                    aux += (char)valor;
                 } else {
-                    aux = aux.replace("\n", "");
                     vec.add(aux);
                     aux = "";
                 }
@@ -84,7 +83,9 @@ public class GuardaPartidas {
         Stack<Carta> mazo = new Stack<Carta>();
         Stack<Carta> comodines = new Stack<Carta>();
 
-        jugador1.set_nombre(vectorString.elementAt(0));
+        String nombre = vectorString.elementAt(0);
+        jugador1.set_nombre(nombre);
+        System.out.println(jugador1.get_nombre());
         int cantidadCartas = Integer.parseInt(vectorString.elementAt(1));
         int index1 = 2;
         for (int i = 0; i < cantidadCartas; i++) {

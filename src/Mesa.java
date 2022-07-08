@@ -11,10 +11,10 @@ public class Mesa {
         this.comodines = new Stack<Carta>();
         this.baraja = new Vector<Carta>();
         for (int i = 1; i < 14; i += 1) {
-            baraja.add(new Carta(i, "corazon", "imagenes/" + i + "_of_hearts.png"));
-            baraja.add(new Carta(i, "pica", "imagenes/" + i + "_of_spades.png"));
-            baraja.add(new Carta(i, "trebol", "imagenes/" + i + "_of_clubs.png"));
-            baraja.add(new Carta(i, "rombo", "imagenes/" + i + "_of_diamonds.png"));
+            baraja.add(new Carta(i, "corazon", "../imagenes/" + i + "_of_hearts.png"));
+            baraja.add(new Carta(i, "pica", "../imagenes/" + i + "_of_spades.png"));
+            baraja.add(new Carta(i, "trebol", "../imagenes/" + i + "_of_clubs.png"));
+            baraja.add(new Carta(i, "rombo", "../imagenes/" + i + "_of_diamonds.png"));
         }
     }
 
