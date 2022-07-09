@@ -132,7 +132,9 @@ public class Controlador implements ActionListener {
 
     public void agregar_action_listener_formar_grupos() {
         this.interfaz.get_boton_eleccion().addActionListener(this);
+        this.interfaz.get_boton_ganar().addActionListener(this);
         this.interfaz.get_boton_deshacer_grupos().addActionListener(this);
+
         for (int i = 0; i < 7; i += 1) {
             if (i < 4) {
                 this.interfaz.get_grupo1().elementAt(i).addActionListener(this);
@@ -158,6 +160,7 @@ public class Controlador implements ActionListener {
             if (e.getSource() == this.interfaz.get_mano_cartas().elementAt(i)) {
                 System.out.println("HOLA CARTA PRESIONADA");
                 index = i;
+                System.out.println("Indice: " + index);
                 mesa.agregar_carta_comodines(this.jugador_actual.desechar_carta(index));
                 this.jugador_actual.set_desecho(true);
                 break;
@@ -251,6 +254,10 @@ public class Controlador implements ActionListener {
                                                 else {
                                                     this.interfaz.get_grupo2().elementAt(i-4).setVisible(false);
                                                 }
+                                            }
+                                        } else {
+                                            if (e.getSource() == this.interfaz.get_boton_ganar()) {
+                                                System.exit(0);
                                             }
                                         }
                                     }

@@ -26,11 +26,13 @@ public class Interfaz /* implements ActionListener */ {
     private JButton boton_jugar;
     private JButton boton_cargar;
     private JButton deshacer_grupos;
+    private JButton boton_ganar; 
     private JTextField nombre_jugador_1;
     private JTextField nombre_jugador_2;
 
     public Interfaz() {
         this.deshacer_grupos = new JButton("Deshacer grupos");
+        this.boton_ganar = new JButton("Ganar!");
         this.frame = new JFrame();
         this.loginFrame = new JFrame();
         this.eleccion_frame = new JFrame();
@@ -106,7 +108,7 @@ public class Interfaz /* implements ActionListener */ {
         this.boton_cargar =  boton_generico(180, 360, 150, 50, "Cargar Partida");
         this.loginFrame.add(boton_cargar);
 
-        this.loginFrame.setBounds(500, 200, 400, 400);
+        this.loginFrame.setBounds(700, 200, 400, 400);
         this.nombre_jugador_1 = texto_jugador_1();
         this.nombre_jugador_2 = texto_jugador_2();
 
@@ -191,10 +193,15 @@ public class Interfaz /* implements ActionListener */ {
             x += 127;
         }
 
+        this.boton_ganar.setBounds(415, 675, 150,50);
+        this.boton_ganar.setForeground(Color.RED);
+        this.eleccion_frame.add(this.boton_ganar); 
+
         this.deshacer_grupos.setBounds(800, 675, 150,50);
         this.eleccion_frame.add(this.deshacer_grupos);
 
         this.eleccion_frame.getContentPane().setBackground(new Color(0, 100, 0));
+        this.eleccion_frame.setBounds(500, 1000, 0, 400);
         this.eleccion_frame.setSize(1000, 1000);
         this.eleccion_frame.setLayout(null);
         this.eleccion_frame.setVisible(false);
@@ -230,6 +237,10 @@ public class Interfaz /* implements ActionListener */ {
 
     public JButton get_boton_eleccion() {
         return this.boton_eleccion;
+    }
+
+    public JButton get_boton_ganar() {
+        return this.boton_ganar;
     }
 
     public JButton get_boton_jugar() {
