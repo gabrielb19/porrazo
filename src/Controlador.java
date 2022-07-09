@@ -27,7 +27,6 @@ public class Controlador implements ActionListener {
     }
 
     public void iniciar_juego() {
-        this.interfaz.pantalla_eleccion_cartas();
         mesa.crear_mazo();
         mesa.repartir_cartas(this.j1, this.j2);
 
@@ -58,9 +57,9 @@ public class Controlador implements ActionListener {
 
             this.interfaz.pantalla_principal(imagenes, comodin,
                     "Turno De Comer De: " + this.jugador_actual.get_nombre());
-            agregar_action_listeners_comer();
-
+            
             agregar_action_listener_formar_grupos();
+            agregar_action_listeners_comer();
             agregar_action_listeners_reglas();
             agregar_action_listeners_partida();
 
@@ -79,9 +78,9 @@ public class Controlador implements ActionListener {
             }
             this.interfaz.pantalla_principal(imagenes, comodin,
                     "Turno de botar una carta de: " + this.jugador_actual.get_nombre());
-            agregar_action_listeners_desechar();
-
+            
             agregar_action_listener_formar_grupos();
+            agregar_action_listeners_desechar();
             agregar_action_listeners_reglas();
             agregar_action_listeners_partida();
 
@@ -132,16 +131,12 @@ public class Controlador implements ActionListener {
 
     public void agregar_action_listener_formar_grupos() {
         this.interfaz.get_boton_eleccion().addActionListener(this);
-        this.interfaz.get_boton_ganar().addActionListener(this);
         this.interfaz.get_boton_deshacer_grupos().addActionListener(this);
 
+    }
+
+    public void agregar_action_listener_cartas_grupos() {
         for (int i = 0; i < 7; i += 1) {
-            if (i < 4) {
-                this.interfaz.get_grupo1().elementAt(i).addActionListener(this);
-            }
-            else {
-                this.interfaz.get_grupo2().elementAt(i-4).addActionListener(this);
-            }
             this.interfaz.get_mano_cartas_eleccion().elementAt(i).addActionListener(this);
         }
 
@@ -155,48 +150,47 @@ public class Controlador implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         int index = -1;
-        int index2 = -1;
+        //int index2 = -1;
         for (int i = 0; i < this.interfaz.get_mano_cartas().size(); i += 1) {
             if (e.getSource() == this.interfaz.get_mano_cartas().elementAt(i)) {
                 System.out.println("HOLA CARTA PRESIONADA");
                 index = i;
-                System.out.println("Indice: " + index);
                 mesa.agregar_carta_comodines(this.jugador_actual.desechar_carta(index));
                 this.jugador_actual.set_desecho(true);
                 break;
             }
         }
-        for (int i = 0; i < 7; i += 1) {
-            if (e.getSource() == this.interfaz.get_mano_cartas_eleccion().elementAt(i)) {
-                this.interfaz.get_mano_cartas_eleccion().elementAt(i).setVisible(false);
-                if (counter < 4) {
-                    System.out.println(counter);
-                    this.interfaz.set_imagen_boton(this.interfaz.get_grupo1().elementAt(counter)
-                    , this.jugador_actual.get_cartas().elementAt(i).get_imagen());
-                    this.interfaz.get_grupo1().elementAt(counter).setVisible(true);
 
-                    this.grupo1.add(this.jugador_actual.get_cartas().elementAt(i));
+        if (index == -1 /*&& index2 == -1*/) {
+            for (int i = 0; i < this.interfaz.get_mano_cartas_eleccion().size(); i += 1) {
+                if (e.getSource() == this.interfaz.get_mano_cartas_eleccion().elementAt(i)) {
+                    this.interfaz.get_mano_cartas_eleccion().elementAt(i).setVisible(false);
+                    if (counter < 4) {
+                        System.out.println(counter);
+                        this.interfaz.set_imagen_boton(this.interfaz.get_grupo1().elementAt(counter)
+                        , this.jugador_actual.get_cartas().elementAt(i).get_imagen());
+                        this.interfaz.get_grupo1().elementAt(counter).setVisible(true);
+    
+                        this.grupo1.add(this.jugador_actual.get_cartas().elementAt(i));
+                    }
+                    else {
+                        System.out.println(counter);
+                        this.interfaz.set_imagen_boton(this.interfaz.get_grupo2().elementAt(counter-4)
+                        , this.jugador_actual.get_cartas().elementAt(i).get_imagen());
+                        this.interfaz.get_grupo2().elementAt(counter-4).setVisible(true);
+                        this.grupo2.add(this.jugador_actual.get_cartas().elementAt(i));
+                    }
+                    if (counter == 6) {
+                        counter = 0;
+                    }
+                    else {
+                        counter += 1;
+                    }
+    
+                    //index2 = i;
+                    break;
                 }
-                else {
-                    System.out.println(counter);
-                    this.interfaz.set_imagen_boton(this.interfaz.get_grupo2().elementAt(counter-4)
-                    , this.jugador_actual.get_cartas().elementAt(i).get_imagen());
-                    this.interfaz.get_grupo2().elementAt(counter-4).setVisible(true);
-                    this.grupo2.add(this.jugador_actual.get_cartas().elementAt(i));
-                }
-                if (counter == 6) {
-                    counter = 0;
-                }
-                else {
-                    counter += 1;
-                }
-
-                index2 = i;
-                break;
             }
-        }
-
-        if (index == -1 && index2 == -1) {
             if (e.getSource() == this.interfaz.get_comodin()) {
                 if (mesa.entregar_carta(this.jugador_actual, 1)) {
                     this.jugador_actual.set_comio(true);
@@ -236,7 +230,9 @@ public class Controlador implements ActionListener {
                                 }
                                 else {
                                     if (e.getSource() == this.interfaz.get_boton_eleccion()) {
-                                       for (int i = 0; i < 7; i += 1) {
+                                        this.interfaz.pantalla_eleccion_cartas();
+                                        agregar_action_listener_cartas_grupos();
+                                       for (int i = 0; i < this.interfaz.get_mano_cartas_eleccion().size(); i += 1) {
                                             this.interfaz.set_imagen_boton(this.interfaz.get_mano_cartas_eleccion().elementAt(i)
                                                 , this.jugador_actual.get_cartas().elementAt(i).get_imagen());
                                        }
@@ -255,11 +251,103 @@ public class Controlador implements ActionListener {
                                                     this.interfaz.get_grupo2().elementAt(i-4).setVisible(false);
                                                 }
                                             }
-                                        } else {
-                                            if (e.getSource() == this.interfaz.get_boton_ganar()) {
-                                                System.exit(0);
-                                            }
                                         }
+                                        /*else {
+                                            if (e.getSource() == this.interfaz.get_mano_cartas_eleccion().elementAt(0)) {
+                                                System.out.println(counter);
+                                                this.interfaz.set_imagen_boton(this.interfaz.get_grupo1().elementAt(counter)
+                                                    , this.jugador_actual.get_cartas().elementAt(0).get_imagen());
+                                                this.interfaz.get_grupo1().elementAt(counter).setVisible(true);
+                                                this.grupo1.add(this.jugador_actual.get_cartas().elementAt(0));
+                                                if (counter == 6) {
+                                                    counter = 0;
+                                                }
+                                                else {
+                                                    counter += 1;
+                                                }
+                                                
+                                            }
+                                            else if (e.getSource() == this.interfaz.get_mano_cartas_eleccion().elementAt(1)) {
+                                                System.out.println(counter);
+                                                this.interfaz.set_imagen_boton(this.interfaz.get_grupo1().elementAt(counter)
+                                                    , this.jugador_actual.get_cartas().elementAt(1).get_imagen());
+                                                this.interfaz.get_grupo1().elementAt(counter).setVisible(true);
+                                                this.grupo1.add(this.jugador_actual.get_cartas().elementAt(1));
+                                                if (counter == 6) {
+                                                    counter = 0;
+                                                }
+                                                else {
+                                                    counter += 1;
+                                                }
+                                            }
+
+                                            else if (e.getSource() == this.interfaz.get_mano_cartas_eleccion().elementAt(2)) {
+                                                System.out.println(counter);
+                                                this.interfaz.set_imagen_boton(this.interfaz.get_grupo1().elementAt(counter)
+                                                    , this.jugador_actual.get_cartas().elementAt(2).get_imagen());
+                                                this.interfaz.get_grupo1().elementAt(counter).setVisible(true);
+                                                this.grupo1.add(this.jugador_actual.get_cartas().elementAt(2));
+                                                if (counter == 6) {
+                                                    counter = 0;
+                                                }
+                                                else {
+                                                    counter += 1;
+                                                }
+                                            }
+                                            else if (e.getSource() == this.interfaz.get_mano_cartas_eleccion().elementAt(3)) {
+                                                System.out.println(counter);
+                                                this.interfaz.set_imagen_boton(this.interfaz.get_grupo1().elementAt(counter)
+                                                    , this.jugador_actual.get_cartas().elementAt(3).get_imagen());
+                                                this.interfaz.get_grupo1().elementAt(counter).setVisible(true);
+                                                this.grupo1.add(this.jugador_actual.get_cartas().elementAt(3));
+                                                if (counter == 6) {
+                                                    counter = 0;
+                                                }
+                                                else {
+                                                    counter += 1;
+                                                }
+                                            }
+                                            else if (e.getSource() == this.interfaz.get_mano_cartas_eleccion().elementAt(4)) {
+                                                System.out.println(counter);
+                                                this.interfaz.set_imagen_boton(this.interfaz.get_grupo2().elementAt(counter-4)
+                                                    , this.jugador_actual.get_cartas().elementAt(4).get_imagen());
+                                                this.interfaz.get_grupo2().elementAt(counter-4).setVisible(true);
+                                                this.grupo2.add(this.jugador_actual.get_cartas().elementAt(4));
+                                                if (counter == 6) {
+                                                    counter = 0;
+                                                }
+                                                else {
+                                                    counter += 1;
+                                                }
+                                            }
+                                            else if (e.getSource() == this.interfaz.get_mano_cartas_eleccion().elementAt(5)) {
+                                                System.out.println(counter);
+                                                this.interfaz.set_imagen_boton(this.interfaz.get_grupo2().elementAt(counter-4)
+                                                    , this.jugador_actual.get_cartas().elementAt(5).get_imagen());
+                                                this.interfaz.get_grupo2().elementAt(counter-4).setVisible(true);
+                                                this.grupo2.add(this.jugador_actual.get_cartas().elementAt(5));
+                                                if (counter == 6) {
+                                                    counter = 0;
+                                                }
+                                                else {
+                                                    counter += 1;
+                                                }
+                                            }
+                                            else if (e.getSource() == this.interfaz.get_mano_cartas_eleccion().elementAt(6)) {
+                                                System.out.println(counter);
+                                                this.interfaz.set_imagen_boton(this.interfaz.get_grupo2().elementAt(counter-4)
+                                                    , this.jugador_actual.get_cartas().elementAt(6).get_imagen());
+                                                this.interfaz.get_grupo2().elementAt(counter-4).setVisible(true);
+                                                this.grupo2.add(this.jugador_actual.get_cartas().elementAt(6));
+                                                if (counter == 6) {
+                                                    counter = 0;
+                                                }
+                                                else {
+                                                    counter += 1;
+                                                }
+                                            }
+                                            
+                                        }*/
                                     }
                                 }
                             }    
