@@ -3,6 +3,7 @@ import java.util.Stack;
 import java.awt.event.*;
 
 public class Controlador implements ActionListener {
+    private int counter;
     private Interfaz interfaz;
     private boolean jugar;
     private boolean cargar;
@@ -10,8 +11,13 @@ public class Controlador implements ActionListener {
     private Jugador j1;
     private Jugador j2;
     private Jugador jugador_actual;
+    private Vector<Carta> grupo1;
+    private Vector<Carta> grupo2;
 
     Controlador() {
+        this.grupo1 = new Vector<Carta>();
+        this.grupo2 = new Vector<Carta>();
+        this.counter = 0;
         this.interfaz = new Interfaz();
         this.jugar = false;
         this.mesa = new Mesa();
@@ -21,6 +27,7 @@ public class Controlador implements ActionListener {
     }
 
     public void iniciar_juego() {
+        this.interfaz.pantalla_eleccion_cartas();
         mesa.crear_mazo();
         mesa.repartir_cartas(this.j1, this.j2);
 
@@ -53,6 +60,7 @@ public class Controlador implements ActionListener {
                     "Turno De Comer De: " + this.jugador_actual.get_nombre());
             agregar_action_listeners_comer();
 
+            agregar_action_listener_formar_grupos();
             agregar_action_listeners_reglas();
             agregar_action_listeners_partida();
 
@@ -73,6 +81,7 @@ public class Controlador implements ActionListener {
                     "Turno de botar una carta de: " + this.jugador_actual.get_nombre());
             agregar_action_listeners_desechar();
 
+            agregar_action_listener_formar_grupos();
             agregar_action_listeners_reglas();
             agregar_action_listeners_partida();
 
@@ -117,12 +126,23 @@ public class Controlador implements ActionListener {
         this.interfaz.get_boton_partida().addActionListener(this);
     }
 
-    public void agregar_action_listeners_grupos() {
-        this.interfaz.get_boton_eleccion().addActionListener(this);
-    }
-
     public void agregar_action_listeners_reglas() {
         this.interfaz.get_boton_reglas().addActionListener(this);
+    }
+
+    public void agregar_action_listener_formar_grupos() {
+        this.interfaz.get_boton_eleccion().addActionListener(this);
+        this.interfaz.get_boton_deshacer_grupos().addActionListener(this);
+        for (int i = 0; i < 7; i += 1) {
+            if (i < 4) {
+                this.interfaz.get_grupo1().elementAt(i).addActionListener(this);
+            }
+            else {
+                this.interfaz.get_grupo2().elementAt(i-4).addActionListener(this);
+            }
+            this.interfaz.get_mano_cartas_eleccion().elementAt(i).addActionListener(this);
+        }
+
     }
 
     public void agregar_action_listeners_desechar() {
@@ -133,16 +153,47 @@ public class Controlador implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         int index = -1;
+        int index2 = -1;
         for (int i = 0; i < this.interfaz.get_mano_cartas().size(); i += 1) {
             if (e.getSource() == this.interfaz.get_mano_cartas().elementAt(i)) {
-                System.out.println("CARTA PRESIONADA");
+                System.out.println("HOLA CARTA PRESIONADA");
                 index = i;
                 mesa.agregar_carta_comodines(this.jugador_actual.desechar_carta(index));
                 this.jugador_actual.set_desecho(true);
                 break;
             }
         }
-        if (index == -1) {
+        for (int i = 0; i < 7; i += 1) {
+            if (e.getSource() == this.interfaz.get_mano_cartas_eleccion().elementAt(i)) {
+                this.interfaz.get_mano_cartas_eleccion().elementAt(i).setVisible(false);
+                if (counter < 4) {
+                    System.out.println(counter);
+                    this.interfaz.set_imagen_boton(this.interfaz.get_grupo1().elementAt(counter)
+                    , this.jugador_actual.get_cartas().elementAt(i).get_imagen());
+                    this.interfaz.get_grupo1().elementAt(counter).setVisible(true);
+
+                    this.grupo1.add(this.jugador_actual.get_cartas().elementAt(i));
+                }
+                else {
+                    System.out.println(counter);
+                    this.interfaz.set_imagen_boton(this.interfaz.get_grupo2().elementAt(counter-4)
+                    , this.jugador_actual.get_cartas().elementAt(i).get_imagen());
+                    this.interfaz.get_grupo2().elementAt(counter-4).setVisible(true);
+                    this.grupo2.add(this.jugador_actual.get_cartas().elementAt(i));
+                }
+                if (counter == 6) {
+                    counter = 0;
+                }
+                else {
+                    counter += 1;
+                }
+
+                index2 = i;
+                break;
+            }
+        }
+
+        if (index == -1 && index2 == -1) {
             if (e.getSource() == this.interfaz.get_comodin()) {
                 if (mesa.entregar_carta(this.jugador_actual, 1)) {
                     this.jugador_actual.set_comio(true);
@@ -164,7 +215,6 @@ public class Controlador implements ActionListener {
                                 Vector<String> data = g.getline();
                                 System.out.println(data.size());
                                 Vector<Object> vecObj = g.cargarPartida(data); 
-                                System.out.println("TAMAÑO VECTOR" + vecObj.size());
                                 this.j1 = ((Jugador)vecObj.elementAt(0));
                                 this.j2 = (Jugador) vecObj.elementAt(1); 
                                 
@@ -180,6 +230,30 @@ public class Controlador implements ActionListener {
                                     g.escribir_en_archivo(this.j1, this.j2, mesa.get_mazo(), mesa.get_comodines());
                                     this.interfaz.reset(this.interfaz.get_pantalla_principal());
                                     System.exit(0);
+                                }
+                                else {
+                                    if (e.getSource() == this.interfaz.get_boton_eleccion()) {
+                                       for (int i = 0; i < 7; i += 1) {
+                                            this.interfaz.set_imagen_boton(this.interfaz.get_mano_cartas_eleccion().elementAt(i)
+                                                , this.jugador_actual.get_cartas().elementAt(i).get_imagen());
+                                       }
+                                       this.interfaz.get_pantalla_eleccion().setVisible(true);
+                                    }
+                                    else {
+                                        if (e.getSource() == this.interfaz.get_boton_deshacer_grupos()) {
+                                            this.grupo1.clear();
+                                            this.grupo2.clear();
+                                            for (int i = 0; i < 7; i += 1) {
+                                                this.interfaz.get_mano_cartas_eleccion().elementAt(i).setVisible(true);
+                                                if (i < 4) {
+                                                    this.interfaz.get_grupo1().elementAt(i).setVisible(false);
+                                                }
+                                                else {
+                                                    this.interfaz.get_grupo2().elementAt(i-4).setVisible(false);
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }    
                         }

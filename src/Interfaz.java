@@ -13,7 +13,11 @@ import java.awt.Dimension;
 public class Interfaz /* implements ActionListener */ {
     private JFrame loginFrame;
     private JFrame frame;
+    private JFrame eleccion_frame;
     private Vector<JButton> mano_cartas;
+    private Vector<JButton> mano_cartas_eleccion;
+    private Vector<JButton> grupo1;
+    private Vector<JButton> grupo2;
     private JButton carta_secreta;
     private JButton comodin;
     private JButton boton_reglas;
@@ -21,15 +25,21 @@ public class Interfaz /* implements ActionListener */ {
     private JButton boton_eleccion;
     private JButton boton_jugar;
     private JButton boton_cargar;
+    private JButton deshacer_grupos;
     private JTextField nombre_jugador_1;
     private JTextField nombre_jugador_2;
 
     public Interfaz() {
+        this.deshacer_grupos = new JButton("Deshacer grupos");
         this.frame = new JFrame();
         this.loginFrame = new JFrame();
+        this.eleccion_frame = new JFrame();
         this.mano_cartas = new Vector<JButton>();
+        this.mano_cartas_eleccion = new Vector<JButton>();
         this.carta_secreta = new JButton();
         this.comodin = new JButton();
+        this.grupo1 = new Vector<JButton>();
+        this.grupo2 = new Vector<JButton>();
     }
 
     public JButton crear_boton_carta(int x, int y, int width, int height, String imagen) {
@@ -40,6 +50,14 @@ public class Interfaz /* implements ActionListener */ {
         JButton boton = new JButton((imageIcon));
         boton.setBounds(x, y, width, height);
         return boton;
+    }
+
+    public void set_imagen_boton(JButton boton, String imagen) {
+        ImageIcon imageIcon = new ImageIcon(imagen);
+        Image image = imageIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(boton.getWidth(), boton.getHeight(), java.awt.Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(newimg);
+        boton.setIcon(imageIcon);
     }
 
     public JButton boton_generico(int x, int y, int width, int height, String texto) {
@@ -140,6 +158,48 @@ public class Interfaz /* implements ActionListener */ {
         frame.setVisible(true);
     }
 
+    public void pantalla_eleccion_cartas() {
+        int x = 40;
+        int x2 = 40;
+        JLabel titulo = new JLabel();
+        titulo.setText("Seleccione las cartas para formar los grupos");
+        titulo.setForeground(Color.WHITE);
+        titulo.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 30));
+        titulo.setBounds(170, 10, 1000, 200);
+        this.eleccion_frame.add(titulo);
+
+        for (int i = 0; i < 7; i += 1) {
+            JButton boton = crear_boton_carta(x, 300, 127, 200, "");
+            this.mano_cartas_eleccion.add(boton);
+            this.eleccion_frame.add(boton);
+
+            if (i == 4) {
+                x2 += 50;
+            }
+            boton = crear_boton_carta(x2, 600, 95, 150, "");
+            if (i < 4) {
+                this.grupo1.add(boton);
+            }
+            else {
+                this.grupo2.add(boton);
+            }
+            boton.setVisible(false);
+
+            this.eleccion_frame.add(boton);
+
+            x2 += 95;
+            x += 127;
+        }
+
+        this.deshacer_grupos.setBounds(800, 675, 150,50);
+        this.eleccion_frame.add(this.deshacer_grupos);
+
+        this.eleccion_frame.getContentPane().setBackground(new Color(0, 100, 0));
+        this.eleccion_frame.setSize(1000, 1000);
+        this.eleccion_frame.setLayout(null);
+        this.eleccion_frame.setVisible(false);
+    }
+
     public void reset(JFrame f) {
         f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
     }
@@ -154,6 +214,10 @@ public class Interfaz /* implements ActionListener */ {
 
     public Vector<JButton> get_mano_cartas() {
         return this.mano_cartas;
+    }
+
+    public Vector<JButton> get_mano_cartas_eleccion() {
+        return this.mano_cartas_eleccion;
     }
 
     public JButton get_comodin() {
@@ -184,12 +248,28 @@ public class Interfaz /* implements ActionListener */ {
         return this.boton_partida;
     }
 
+    public JButton get_boton_deshacer_grupos() {
+        return this.deshacer_grupos;
+    }
+
     public JTextField get_jugador_1() {
         return this.nombre_jugador_1;
     }
 
     public JTextField get_jugador_2() {
         return this.nombre_jugador_2;
+    }
+
+    public Vector<JButton> get_grupo1() {
+        return this.grupo1;
+    }
+
+    public Vector<JButton> get_grupo2() {
+        return this.grupo2;
+    }
+
+    public JFrame get_pantalla_eleccion() {
+        return this.eleccion_frame;
     }
 
     public void desplegar_reglas() {
