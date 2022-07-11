@@ -69,7 +69,7 @@ public class Mesa {
             barajadas.add(index);
             this.mazo.push(this.baraja.elementAt(index));
         }
-        System.out.println(barajadas);
+        //System.out.println(barajadas);
     }
 
     public void ordenar_mazo(Vector<Carta> cartas) {
@@ -124,28 +124,20 @@ public class Mesa {
         boolean gano = false;
         ordenar_mazo(grupo1);
         ordenar_mazo(grupo2);
-        System.out.println("GRUPO 1 mismo tipo: "+mismo_tipo(grupo1));
-        System.out.println("GRUPO 2 mismo tipo: "+mismo_tipo(grupo2));
-        System.out.println("GRUPO 1 mismo numero: "+mismo_numero(grupo1));
-        System.out.println("GRUPO 2 mismo numero: "+mismo_numero(grupo2));
         if (mismo_numero(grupo1) && mismo_numero(grupo2)) {
-            System.out.println("IF 1");
             gano = true;
         }
         else if (mismo_numero(grupo1) && mismo_tipo(grupo2)) {
-            System.out.println("IF 2");
             if (hay_escalera(grupo2)) {
                 gano = true;
             }
         }
         else if (mismo_tipo(grupo1) && mismo_numero(grupo2)) {
-            System.out.println("IF 3");
             if (hay_escalera(grupo1)) {
                 gano = true;
             }
         }
         else if (mismo_tipo(grupo1) && mismo_tipo(grupo2)) {
-            System.out.println("IF 4");
             if (hay_escalera(grupo2) && hay_escalera(grupo1)) {
                 gano = true;
             }

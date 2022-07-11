@@ -56,7 +56,7 @@ public class Controlador implements ActionListener {
             }
 
             this.interfaz.pantalla_principal(imagenes, comodin,
-                    "Turno De Comer De: " + this.jugador_actual.get_nombre());
+                    "Turno de comer: " + this.jugador_actual.get_nombre());
             
             agregar_action_listener_formar_grupos();
             agregar_action_listeners_comer();
@@ -77,7 +77,7 @@ public class Controlador implements ActionListener {
                 comodin = "../imagenes/vacio.png";
             }
             this.interfaz.pantalla_principal(imagenes, comodin,
-                    "Turno de botar una carta de: " + this.jugador_actual.get_nombre());
+                    "Turno de botar una carta: " + this.jugador_actual.get_nombre());
             
             agregar_action_listener_formar_grupos();
             agregar_action_listeners_desechar();
@@ -151,7 +151,7 @@ public class Controlador implements ActionListener {
         //int index2 = -1;
         for (int i = 0; i < this.interfaz.get_mano_cartas().size(); i += 1) {
             if (e.getSource() == this.interfaz.get_mano_cartas().elementAt(i)) {
-                System.out.println("HOLA CARTA PRESIONADA");
+                //System.out.println("HOLA CARTA PRESIONADA");
                 index = i;
                 mesa.agregar_carta_comodines(this.jugador_actual.desechar_carta(index));
                 this.jugador_actual.set_desecho(true);
@@ -164,7 +164,7 @@ public class Controlador implements ActionListener {
                 if (e.getSource() == this.interfaz.get_mano_cartas_eleccion().elementAt(i)) {
                     this.interfaz.get_mano_cartas_eleccion().elementAt(i).setVisible(false);
                     if (counter < 4) {
-                        System.out.println(counter);
+                        //System.out.println(counter);
                         this.interfaz.set_imagen_boton(this.interfaz.get_grupo1().elementAt(counter)
                         , this.jugador_actual.get_cartas().elementAt(i).get_imagen());
                         this.interfaz.get_grupo1().elementAt(counter).setVisible(true);
@@ -172,7 +172,7 @@ public class Controlador implements ActionListener {
                         this.grupo1.add(this.jugador_actual.get_cartas().elementAt(i));
                     }
                     else {
-                        System.out.println(counter);
+                        //System.out.println(counter);
                         this.interfaz.set_imagen_boton(this.interfaz.get_grupo2().elementAt(counter-4)
                         , this.jugador_actual.get_cartas().elementAt(i).get_imagen());
                         this.interfaz.get_grupo2().elementAt(counter-4).setVisible(true);
@@ -208,7 +208,7 @@ public class Controlador implements ActionListener {
                             if (e.getSource() == this.interfaz.get_boton_cargar()) {
                                 GuardaPartidas g = new GuardaPartidas();
                                 Vector<String> data = g.getline();
-                                System.out.println(data.size());
+                                //System.out.println(data.size());
                                 Vector<Object> vecObj = g.cargarPartida(data); 
                                 this.j1 = ((Jugador)vecObj.elementAt(0));
                                 this.j2 = (Jugador) vecObj.elementAt(1); 
@@ -228,13 +228,18 @@ public class Controlador implements ActionListener {
                                 }
                                 else {
                                     if (e.getSource() == this.interfaz.get_boton_eleccion()) {
-                                        this.interfaz.pantalla_eleccion_cartas();
-                                        agregar_action_listener_cartas_grupos();
-                                       for (int i = 0; i < this.interfaz.get_mano_cartas_eleccion().size(); i += 1) {
-                                            this.interfaz.set_imagen_boton(this.interfaz.get_mano_cartas_eleccion().elementAt(i)
-                                                , this.jugador_actual.get_cartas().elementAt(i).get_imagen());
-                                       }
-                                       this.interfaz.get_pantalla_eleccion().setVisible(true);
+                                        if (this.jugador_actual.get_cartas().size() > 7) {
+                                            this.interfaz.impedimento_eleccion();
+                                        }
+                                        else {
+                                            this.interfaz.pantalla_eleccion_cartas();
+                                            agregar_action_listener_cartas_grupos();
+                                           for (int i = 0; i < this.interfaz.get_mano_cartas_eleccion().size(); i += 1) {
+                                                this.interfaz.set_imagen_boton(this.interfaz.get_mano_cartas_eleccion().elementAt(i)
+                                                    , this.jugador_actual.get_cartas().elementAt(i).get_imagen());
+                                           }
+                                           this.interfaz.get_pantalla_eleccion().setVisible(true);
+                                        }
                                     }
                                     else {
                                         if (e.getSource() == this.interfaz.get_boton_deshacer_grupos()) {
@@ -253,18 +258,7 @@ public class Controlador implements ActionListener {
                                         else {
                                             if (e.getSource() == this.interfaz.get_boton_verificar_grupos()) {
                                                 boolean puede_ganar = this.mesa.puede_ganar(this.grupo1, this.grupo2);
-                                                System.out.println("Grupo 1:");
-                                                /*for (int i = 0; i < grupo1.size(); i += 1) {
-                                                    System.out.println(grupo1.elementAt(i).get_imagen());
-                                                    System.out.println(grupo1.elementAt(i).get_numero());
-                                                    System.out.println(grupo1.elementAt(i).get_tipo());
-                                                }   
-                                                System.out.println("Grupo 2:");
-                                                for (int i = 0; i < grupo2.size(); i += 1) {
-                                                    System.out.println(grupo2.elementAt(i).get_imagen());
-                                                    System.out.println(grupo2.elementAt(i).get_numero());
-                                                    System.out.println(grupo2.elementAt(i).get_tipo());
-                                                }*/
+                                                
                                                 this.interfaz.pantalla_ganar(puede_ganar);
                                                 if (puede_ganar) {
                                                     this.hay_ganador = true;

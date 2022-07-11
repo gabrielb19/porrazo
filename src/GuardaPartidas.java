@@ -85,7 +85,7 @@ public class GuardaPartidas {
 
         String nombre = vectorString.elementAt(0);
         jugador1.set_nombre(nombre);
-        System.out.println(jugador1.get_nombre());
+        //System.out.println(jugador1.get_nombre());
         int cantidadCartas = Integer.parseInt(vectorString.elementAt(1));
         int index1 = 2;
         for (int i = 0; i < cantidadCartas; i++) {
@@ -123,9 +123,6 @@ public class GuardaPartidas {
             index1 += 3;
         }
 
-        for (int i = 0; i < comodines.size(); i++) {
-            System.out.println(comodines.elementAt(i).get_imagen());
-        }
         vec.add(jugador1);
         vec.add(jugador2);
         vec.add(mazo);

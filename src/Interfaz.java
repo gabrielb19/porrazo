@@ -216,6 +216,10 @@ public class Interfaz /* implements ActionListener */ {
         this.eleccion_frame.setVisible(false);
     }
 
+    public void impedimento_eleccion() {
+        JOptionPane.showMessageDialog(null,"No puedes formar grupos aún, debes botar una carta primero");
+    }
+
     public void reset(JFrame f) {
         f.dispatchEvent(new WindowEvent(f, WindowEvent.WINDOW_CLOSING));
     }
