@@ -297,7 +297,7 @@ public class Interfaz /* implements ActionListener */ {
     }
 
     public void desplegar_reglas() {
-        Path filePath = Path.of("reglas.txt");
+        Path filePath = Path.of("../archivos_de_texto/reglas.txt");
         String content = "";
         try {
             content = Files.readString(filePath, StandardCharsets.US_ASCII);

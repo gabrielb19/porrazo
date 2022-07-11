@@ -10,7 +10,7 @@ public class GuardaPartidas {
 
     public void escribir_en_archivo(Jugador jugador1, Jugador jugador2, Stack<Carta> mazo, Stack<Carta> comodines) {
         try {
-            FileWriter archivo_con_partida = new FileWriter("partida.txt");
+            FileWriter archivo_con_partida = new FileWriter("../archivos_de_texto/partida.txt");
             // JUGADOR 1
             archivo_con_partida.write(jugador1.get_nombre() + '\n');
             archivo_con_partida.write(String.valueOf(jugador1.get_cartas().size()) + '\n');
@@ -57,7 +57,7 @@ public class GuardaPartidas {
         String aux = "";
         Vector<String> vec = new Vector<String>();
         try {
-            FileReader partida = new FileReader("partida.txt");
+            FileReader partida = new FileReader("../archivos_de_texto/partida.txt");
             int valor = partida.read();
             while (valor != -1) {
                 if ((char)valor != '\n') {

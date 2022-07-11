@@ -26,11 +26,18 @@
 
 ### **Compilacion :**
 
-`javac -d bin/ src/*.java`
+Posicionarse en la raiz carpeta y correr el comando:
+
+`javac -d ejecutables/ src/*.java`
 
 ### **Ejecucion :**
+Posicionarse en la raiz carpeta y correr el comando:
 
-`java -cp bin/ Main`
+`java -cp ejecutables/ Main`
+
+o posicionarse en la carpeta `ejecutables` y correr el comando:
+
+`java Main`
 
 ## **Creditos**
 
