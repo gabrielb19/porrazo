@@ -26,10 +26,12 @@ public class Interfaz /* implements ActionListener */ {
     private JButton boton_jugar;
     private JButton boton_cargar;
     private JButton deshacer_grupos;
+    private JButton boton_verificar_grupos;
     private JTextField nombre_jugador_1;
     private JTextField nombre_jugador_2;
 
     public Interfaz() {
+        this.boton_verificar_grupos = new JButton("Verificar grupos");
         this.deshacer_grupos = new JButton("Deshacer grupos");
         this.frame = new JFrame();
         this.loginFrame = new JFrame();
@@ -120,6 +122,16 @@ public class Interfaz /* implements ActionListener */ {
         loginFrame.setVisible(true);
     }
 
+    public void pantalla_ganar(boolean gano) {
+        if (gano) {
+            JOptionPane.showMessageDialog(null, "FELICIDADES! Has ganado");
+            
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Con los grupos que formaste no puedes ganar");
+        }
+    }
+
     public void pantalla_principal(Vector<String> mano, String tope_desechadas, String titulo) {
         // Se crean botones de la mano de cartas
         int x = 600;
@@ -186,10 +198,14 @@ public class Interfaz /* implements ActionListener */ {
             boton.setVisible(false);
 
             this.eleccion_frame.add(boton);
+            this.eleccion_frame.setBounds(500, 0, 400, 400);
 
             x2 += 95;
             x += 127;
         }
+
+        this.boton_verificar_grupos.setBounds(425, 800, 150,50);
+        this.eleccion_frame.add(this.boton_verificar_grupos);
 
         this.deshacer_grupos.setBounds(800, 675, 150,50);
         this.eleccion_frame.add(this.deshacer_grupos);
@@ -242,6 +258,10 @@ public class Interfaz /* implements ActionListener */ {
 
     public JButton get_carta_secreta() {
         return this.carta_secreta;
+    }
+
+    public JButton get_boton_verificar_grupos() {
+        return this.boton_verificar_grupos;
     }
 
     public JButton get_boton_partida() {

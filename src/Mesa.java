@@ -72,106 +72,88 @@ public class Mesa {
         System.out.println(barajadas);
     }
 
-    public Vector<Carta> ordenar_mazo(Vector<Carta> cartas) {
-        Carta arregloAux[] = new Carta[cartas.size()];
-        Vector<Carta> cartas_ordenadas = new Vector<Carta>();
-
-        for (int i = 0; i < cartas.size(); i++) {
-            arregloAux[i] = cartas.elementAt(i);
-        }
-
-        for (int j = 1; j < cartas.size(); j++) {
-            Carta key = arregloAux[j];
-            int i = j - 1;
-            while (i >= 0 && arregloAux[j].get_numero() > key.get_numero()) {
-                arregloAux[i + 1] = arregloAux[i];
-                i--;
-            }
-            arregloAux[i + 1] = key;
-        }
-
-        for (int i = 0; i < cartas.size(); i++) {
-            cartas_ordenadas.add(arregloAux[i]);
-        }
-
-        return cartas_ordenadas;
-    }
-
-    public boolean hay_escalera(Vector<Carta> cartas_escalera) {
-        boolean tiene_escalera = false;
-        boolean mismo_tipo = false;
-        int contador_mismo_tipo = 0;
-        Vector<Carta> cartas_ordenadas = new Vector<Carta>();
-
-        for (int i = 1; i < cartas_escalera.size(); i++) {
-            if (cartas_escalera.elementAt(i).get_tipo() == cartas_escalera.elementAt(0).get_tipo()) {
-                contador_mismo_tipo++;
-            }
-        }
-
-        if (contador_mismo_tipo == cartas_escalera.size()) {
-            mismo_tipo = true;
-        }
-
-        if (mismo_tipo) {
-            cartas_ordenadas = ordenar_mazo(cartas_escalera);
-
-            for (int i = 0; i < cartas_ordenadas.size(); i++) {
-                int next_index = i + 1;
-                if (cartas_ordenadas.elementAt(next_index).get_numero() == cartas_ordenadas.elementAt(i).get_numero()
-                        + 1) {
-                    tiene_escalera = true;
-                } else {
-                    tiene_escalera = false;
-                    break;
+    public void ordenar_mazo(Vector<Carta> cartas) {
+        for (int i = 0; i < cartas.size() - 1; i++){
+            for (int j = 0; j < cartas.size() - i - 1; j++){
+                if (cartas.elementAt(j).get_numero() > cartas.elementAt(j + 1).get_numero()){
+                    Carta aux = cartas.elementAt(j);
+                    cartas.set(j, cartas.elementAt(j+1));
+                    cartas.set(j+1, aux);
                 }
             }
+        }
+    }
 
-        } else {
-            tiene_escalera = false;
+    public boolean hay_escalera(Vector<Carta> cartas) {
+        boolean tiene_escalera = true;
+        for (int i = 0; i < cartas.size()-1; i += 1) {
+            if (cartas.elementAt(i).get_numero() != (cartas.elementAt(i+1).get_numero()-1)) {
+                tiene_escalera = false;
+                break;
+            }
         }
 
         return tiene_escalera;
     }
 
-    public boolean hay_iguales(Vector<Carta> cartas_iguales) {
-        boolean tiene_iguales = false;
-        int contador_cartas_iguales = 0;
-
-        for (int i = 1; i < cartas_iguales.size(); i++) {
-            if (cartas_iguales.elementAt(i) == cartas_iguales.elementAt(0)) {
-                contador_cartas_iguales++;
+    public boolean mismo_numero(Vector<Carta> cartas) {
+        boolean son_iguales = true;
+        int num = cartas.elementAt(0).get_numero();
+        for (int i = 1; i < cartas.size(); i += 1) {
+            if (cartas.elementAt(i).get_numero() != num) {
+                son_iguales = false;
+                break;
             }
         }
+        return son_iguales;
+    }
 
-        if (contador_cartas_iguales == cartas_iguales.size()) {
-            tiene_iguales = true;
+    public boolean mismo_tipo(Vector<Carta> cartas) {
+        boolean son_iguales = true;
+        String tipo = cartas.elementAt(0).get_tipo();
+        for (int i = 1; i < cartas.size(); i += 1) {
+            if (!cartas.elementAt(i).get_tipo().equals(tipo)) {
+                son_iguales = false;
+                break;
+            }
         }
-
-        return tiene_iguales;
+        return son_iguales;
     }
 
     public boolean puede_ganar(Vector<Carta> grupo1, Vector<Carta> grupo2) {
         boolean gano = false;
-        boolean hay_cartas_iguales_1 = false;
-        boolean hay_escalera_1 = false;
-        boolean hay_cartas_iguales_2 = false;
-        boolean hay_escalera_2 = false;
-
-        hay_cartas_iguales_1 = this.hay_iguales(grupo1);
-
-        hay_cartas_iguales_2 = this.hay_iguales(grupo2);
-
-        hay_escalera_1 = this.hay_escalera(grupo1);
-
-        hay_escalera_2 = this.hay_escalera(grupo2);
-
-        if ((hay_cartas_iguales_1 || hay_escalera_1) && (hay_cartas_iguales_2 || hay_escalera_2)) {
+        ordenar_mazo(grupo1);
+        ordenar_mazo(grupo2);
+        System.out.println("GRUPO 1 mismo tipo: "+mismo_tipo(grupo1));
+        System.out.println("GRUPO 2 mismo tipo: "+mismo_tipo(grupo2));
+        System.out.println("GRUPO 1 mismo numero: "+mismo_numero(grupo1));
+        System.out.println("GRUPO 2 mismo numero: "+mismo_numero(grupo2));
+        if (mismo_numero(grupo1) && mismo_numero(grupo2)) {
+            System.out.println("IF 1");
             gano = true;
         }
-
+        else if (mismo_numero(grupo1) && mismo_tipo(grupo2)) {
+            System.out.println("IF 2");
+            if (hay_escalera(grupo2)) {
+                gano = true;
+            }
+        }
+        else if (mismo_tipo(grupo1) && mismo_numero(grupo2)) {
+            System.out.println("IF 3");
+            if (hay_escalera(grupo1)) {
+                gano = true;
+            }
+        }
+        else if (mismo_tipo(grupo1) && mismo_tipo(grupo2)) {
+            System.out.println("IF 4");
+            if (hay_escalera(grupo2) && hay_escalera(grupo1)) {
+                gano = true;
+            }
+        }
         return gano;
     }
+
+    
 
     public void agregar_carta_comodines(Carta c) {
         this.comodines.push(c);
