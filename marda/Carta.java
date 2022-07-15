@@ -1,4 +1,4 @@
-public class Carta {
+public class Carta extends Cartas{
     private final int numero;
     private final String tipo;
     private final String imagen;
@@ -19,5 +19,13 @@ public class Carta {
 
     public String get_imagen() {
         return this.imagen;
+    }
+
+    public boolean agregarAMazo(Cartas c) {
+        return c.agregarAMazo(this);
+    }
+
+    public Cartas sacarDeMazo(Cartas c) {
+        return c.sacarDeMazo(this);
     }
 }
