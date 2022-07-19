@@ -2,12 +2,8 @@ import java.util.Vector;
 
 public class Mesa {
 
-    public void repartirCartas(Vector<Jugador> jugadores, Mazo m, int cantidad) {
-        for (int i = 0; i < jugadores.size(); i +=1 ) {
-            for (int j = 0; j < cantidad; j += 1) {
-                jugadores.elementAt(i).recibirCarta(m.sacarDeMazo(m.cartaEnPosicion(0)));
-            }
-        }
+    public void entregarCarta(Jugador jugador, Mazo m) {
+        jugador.recibirCarta(m.sacarDeMazo(m.cartaEnPosicion(0)));       
     }
 
     private int numero_aleatorio(int min, int max) {

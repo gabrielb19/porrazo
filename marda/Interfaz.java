@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.Image;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Component; 
 
 public abstract class Interfaz {
     private JFrame lofinFrame; 
@@ -59,26 +61,69 @@ public abstract class Interfaz {
         return boton;
     }
 
-     /**
-     * Agrega boton a un JFrame 
-     * @param boton boton a agregar
-     * @param frame frame
-     */
-    public void agregarBoton(JButton boton, JFrame frame) {
-        frame.add(boton); 
+    public void setImagenCarta(String imagen, int width, int height, JButton boton) {
+        ImageIcon imageIcon = new ImageIcon(imagen);
+        Image image = imageIcon.getImage(); 
+        Image newimg = image.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH); 
+        imageIcon = new ImageIcon(newimg);
+        
+        boton.setIcon(imageIcon);
+    }
+
+    public JLabel crearLabel(String texto, int x, int y, int width, int height) {
+        JLabel label = new JLabel();
+        label.setText(texto);
+        label.setBounds(x, y, width, height);
+        
+        return label; 
+    }
+
+    public JLabel crearLabel(String texto, int x, int y, int width, int height, Color color, Font fuente) {
+        JLabel label = new JLabel();
+        label.setText(texto);
+        label.setForeground(color);
+        label.setFont(fuente);
+        label.setBounds(x, y, width, height);
+
+        return label; 
+    }
+
+    public JTextField crearTextField(int x, int y, int height, int width) {
+        JTextField userTextField = new JTextField();
+        userTextField.setBounds(x, y, width, height);
+        return userTextField;
     }
 
      /**
-     * Agrega un texto a un JFrame
-     * @param texto texto a agregar
+     * Agrega componente a un JFrame 
+     * @param boton componente a agregar
      * @param frame frame
      */
-    public void agregarTexto(JPanel texto, JFrame frame) {
-        frame.add(texto); 
+    public void agregarComponente(Component componente, JFrame frame) {
+        frame.add(componente); 
     }
 
-     /**
-     * Metodo generico para crear las pantallas 
-     */
-    public abstract void crearFrame(); 
+    public JFrame crearPantalla(int x, int y, int height, int width) {
+        JFrame pantalla = new JFrame(); 
+
+        pantalla.setResizable(false);
+        pantalla.setBounds(x, y, width, height);
+        pantalla.setLayout(null);
+        pantalla.setVisible(true);
+
+        return pantalla; 
+    }
+
+    public JFrame crearPantalla(int x, int y, int height, int width, Color color) {
+        JFrame pantalla = new JFrame(); 
+
+        pantalla.setResizable(false);
+        pantalla.setBounds(x, y, width, height);
+        pantalla.setLayout(null);
+        pantalla.setVisible(true);
+        pantalla.getContentPane().setBackground(color);
+
+        return pantalla; 
+    }
+ 
 }
