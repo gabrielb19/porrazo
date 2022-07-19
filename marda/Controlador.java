@@ -33,4 +33,8 @@ public abstract class Controlador implements ActionListener {
      * Inicia el juego
      */
     public abstract void iniciarJuego();
+
+    public void jugar() {
+        iniciarJuego();
+    }
 }
