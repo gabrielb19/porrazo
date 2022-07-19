@@ -25,7 +25,7 @@ public class ControladorPorrazo extends Controlador {
     }
 
     public void agregarActionListener(JButton boton) {
-
+        boton.addActionListener(this);
     }
 
     public void iniciarJuego() {

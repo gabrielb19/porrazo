@@ -7,7 +7,7 @@ public class Main {
         Carta carta = null;
         for (int i = 0; i < cartas.size(); i += 1) {
             carta = (Carta)cartas.elementAt(i);
-            System.out.println(""+ i +": "+carta.get_imagen());
+            System.out.println(""+ i +": "+carta.getImagen());
 
         }
     }
