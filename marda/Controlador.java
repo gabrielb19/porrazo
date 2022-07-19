@@ -17,18 +17,12 @@ public abstract class Controlador implements ActionListener {
     }
 
     /**
-     * Constructor por omisión
-     */
-    public Controlador() {
-        this.mesa = new Mesa();
-        this.interfaz = new Interfaz();
-    }
-
-    /**
      * Agrega un actionListener a un botón obtenido de la interfaz
      * @param b botón al que se le agrega el actionListener
      */
-    public abstract void agregarActionListener(JButton b); 
+    public void agregarActionListener(JButton b) {
+        b.addActionListener(this);
+    }
 
     /**
      * Determina que acción se toma cuando se acciona un botón
