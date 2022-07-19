@@ -1,65 +1,62 @@
-import java.util.Vector;
-import java.util.Stack;
 
-public class Jugador {
-    private Vector<Carta> cartas;
-    private String nombre;
-    private boolean comio;
-    private boolean desecho;
-
+public abstract class Jugador {
+    protected String nombre;
+    
+    /**
+     * Constructor por omisión
+     */
     public Jugador() {
         this.nombre = "";
-        this.cartas = new Vector<Carta>();
-        this.comio = false;
-        this.desecho = false;
     }
 
+    /**
+     * Constructor por parámetros
+     * @param nombre nombre del jugador
+     */
     public Jugador(String nombre) {
         this.nombre = nombre;
-        this.cartas = new Vector<Carta>();
     }
 
-    public void recibir_carta(Carta c) {
-        this.cartas.add(c);
-    }
-
-    public Carta desechar_carta(int index) {
-        return this.cartas.remove(index);
-    }
-
-    public String get_nombre() {
+    /**
+     * Obtener el nombre del jugador
+     * @return nombre del jugador
+     */
+    public String getNombre() {
         return this.nombre;
     }
-
-    public boolean get_comio() {
-        return this.comio;
+    
+    /**
+     * Asignar nombre al jugador
+     * @param nombre Nuevo nombre del jugador
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public boolean get_desecho() {
-        return this.desecho;
+    /**
+     * Usuario recibe una carta a alguno de sus mazos
+     * @param c Carta a recibir
+     * @return Si la carta fue recibida correctamente
+     */
+    public abstract boolean recibirCarta(Cartas c);
+
+    /**
+     * Jugador desecha una carta de alguno de sus mazos
+     * @param index índice de la carta a desechar
+     * @param m Mazo del cual se desecha la carta
+     * @return Carta desechada
+     */
+    public Cartas desecharCarta(int index, Mazo m) {
+        return m.sacarDeMazo(m.cartaEnPosicion(index));
     }
 
-    public void set_comio(boolean var) {
-        this.comio = var;
-    }
-
-    public void set_desecho(boolean var) {
-        this.desecho = var;
-    }
-
-    public Vector<Carta> get_cartas() {
-        return this.cartas;
-    }
-
-    public void set_nombre(String nombre1) {
-        this.nombre = nombre1;
-    }
-
-    public void ver_cartas() {
-        System.out.println("LISTADO DE CARTAS: ");
-        for (int i = 0; i < cartas.size(); i += 1) {
-            System.out.println(i + ". Numero: " + cartas.elementAt(i).get_numero() + " | " + "Tipo: "
-                    + cartas.elementAt(i).get_tipo());
-        }
+    /**
+     * Jugador desecha una carta de alguno de sus mazos
+     * @param carta Carta a desechar
+     * @param m Mazo del que se desechará la carta
+     * @return Carta desechada
+     */
+    public Cartas desecharCarta(Cartas carta, Mazo m) {
+        return m.sacarDeMazo(carta);
     }
 }

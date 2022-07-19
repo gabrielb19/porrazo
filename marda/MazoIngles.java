@@ -1,6 +1,10 @@
 import java.util.Vector;
 
-public class MazoIngles extends Mazo {  
+public class MazoIngles extends Mazo {
+
+    /**
+     * Constructor por omisión 
+     * */  
     public MazoIngles() {
         this.mazo = new Vector<Cartas>();
         for (int i = 1; i < 14; i += 1) {
